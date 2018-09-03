@@ -38,18 +38,48 @@
 
 package com.fr0stsp1re.inventoryapp.data;
 
+import android.content.ContentResolver;
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 public final class InventoryContract {
 
-    private InventoryContract() { }
+    // empty constructor
+    private InventoryContract() {
+    }
+
+    // string var for content authority to be used as base for all uri's
+    public static final String CONTENT_AUTHORITY = "com.fr0stsp1re.inventoryapp";
+
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+
+    // path to entire table
+    public static final String PATH_PRODUCT = "tbl_product";
+
+    /**
+     * inner class defining contant values for product table
+     */
 
     public static final class InventoryEntry implements BaseColumns {
 
+        //content uri
+        public static final Uri CONTENT_URI = Uri.withAppendedPath(BASE_CONTENT_URI, PATH_PRODUCT);
+
+        // MIME type for a list of all products
+        public static final String CONTENT_LIST_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" +
+                CONTENT_AUTHORITY + "/" + PATH_PRODUCT;
+
+        // MIME type for a single product
+        public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/" +
+                CONTENT_AUTHORITY + "/" + PATH_PRODUCT;
+
+        // database table name to hold products
         public final static String TABLE_NAME = "tbl_product";
 
+        // unique primary key id
         public final static String _ID = BaseColumns._ID;
 
+        // names of table columns
         public final static String COL_PRODUCT_NAME = "product_name";
 
         public final static String COL_PRODUCT_DESCRIPTION = "product_description";
