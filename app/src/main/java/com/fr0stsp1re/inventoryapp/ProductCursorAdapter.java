@@ -36,43 +36,51 @@
  *
  */
 
-package com.fr0stsp1re.inventoryapp.data;
+package com.fr0stsp1re.inventoryapp;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.database.Cursor;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CursorAdapter;
+import android.widget.TextView;
 
-import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
+import com.fr0stsp1re.inventoryapp.data.InventoryContract;
 
-public class InventoryDbHelper extends SQLiteOpenHelper {
+class ProductCursorAdapter extends CursorAdapter {
 
-    private static final String DATABASE_NAME = "inventory.db";
-
-    private static final int DATABASE_VERSION = 1;
-
-    public InventoryDbHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public ProductCursorAdapter(Context context, Cursor c) {
+        super(context, c, 0 /* flags */);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public View newView(Context context, Cursor cursor, ViewGroup parent) {
 
-        String SQL_CREATE_PRODUCT_TABLE = "CREATE TABLE " + InventoryEntry.TABLE_NAME + " ("
-                + InventoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + InventoryEntry.COL_PRODUCT_NAME + " TEXT NOT NULL, "
-                + InventoryEntry.COL_PRODUCT_DESCRIPTION + " TEXT, "
-                + InventoryEntry.COL_PRODUCT_SUPPLIER + " TEXT, "
-                + InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE + " TEXT, "
-                + InventoryEntry.COL_PRODUCT_PRICE + " INTEGER NOT NULL, "
-                + InventoryEntry.COL_PRODUCT_QUANTITY + " INTEGER NOT NULL DEFAULT 0);";
-
-        db.execSQL(SQL_CREATE_PRODUCT_TABLE);
-
+        return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void bindView(View view, Context context, Cursor cursor) {
+
+        TextView nameTextView = view.findViewById(R.id.name);
+        TextView descriptionTextView = view.findViewById(R.id.description);
+
+        int productNameColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COL_PRODUCT_NAME);
+        int descriptionColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COL_PRODUCT_DESCRIPTION);
+
+        String productName = cursor.getString(productNameColumnIndex);
+        String productDescription = cursor.getString(descriptionColumnIndex);
+
+        // if there is no product description display default message
+        if (TextUtils.isEmpty(productDescription)) {
+
+            productDescription = context.getString(R.string.no_product_description);
+        }
+
+        nameTextView.setText(productName);
+        descriptionTextView.setText(productDescription);
 
     }
-
 }

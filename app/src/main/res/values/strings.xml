@@ -1,9 +1,28 @@
 <resources>
+
+    <!-- App name -->
     <string name="app_name">InventoryApp</string>
+
+    <!-- Dummy product info -->
     <string name="string_product_name">Big hammer</string>
     <string name="string_product_description">Nail things</string>
     <string name="string_product_supplier">Daves Dicks</string>
     <string name="string_product_supplier_phone">5035551212</string>
     <string name="string_product_price">100</string>
     <string name="string_product_quantity">12</string>
+
+    <!-- Dialog box messages -->
+    <string name="delete_dialog_msg">Delete this product</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="unsaved_changes_dialog_msg">Discard your changes and quit editing?</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
+
+    <!-- Label for no product description-->
+    <string name="no_product_description">No Description Available</string>
+    <string name="label_product_catalog">Product Catalog</string>
+
 </resources>
+
+

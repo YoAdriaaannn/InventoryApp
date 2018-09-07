@@ -45,21 +45,17 @@ import android.provider.BaseColumns;
 public final class InventoryContract {
 
     // empty constructor
-    private InventoryContract() {
-    }
+    private InventoryContract() {}
 
     // string var for content authority to be used as base for all uri's
     public static final String CONTENT_AUTHORITY = "com.fr0stsp1re.inventoryapp";
 
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
+    private static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     // path to entire table
     public static final String PATH_PRODUCT = "tbl_product";
 
-    /**
-     * inner class defining contant values for product table
-     */
-
+     //inner class defining constant values for product table
     public static final class InventoryEntry implements BaseColumns {
 
         //content uri
