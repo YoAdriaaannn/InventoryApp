@@ -56,6 +56,10 @@ public class InventoryProvider extends ContentProvider {
     // uri int matcher for single product
     private static final int PRODUCT_ID = 101;
 
+
+    private static final int SORT_ID_ASC = 200;
+    private static final int SORT_ID_DES = 201;
+
     // uri matcher object
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
@@ -63,6 +67,7 @@ public class InventoryProvider extends ContentProvider {
 
         sUriMatcher.addURI(InventoryContract.CONTENT_AUTHORITY, InventoryContract.PATH_PRODUCT, PRODUCT);
         sUriMatcher.addURI(InventoryContract.CONTENT_AUTHORITY, InventoryContract.PATH_PRODUCT + "/#", PRODUCT_ID);
+
 
     }
 
@@ -97,10 +102,13 @@ public class InventoryProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
 
+
+
             case PRODUCT_ID:
 
                 selection = InventoryEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+
 
 
                 cursor = database.query(InventoryEntry.TABLE_NAME, projection, selection, selectionArgs,

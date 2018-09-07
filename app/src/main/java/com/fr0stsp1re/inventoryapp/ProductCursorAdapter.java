@@ -47,7 +47,8 @@ import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.TextView;
 
-import com.fr0stsp1re.inventoryapp.data.InventoryContract;
+
+import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
 
 class ProductCursorAdapter extends CursorAdapter {
 
@@ -66,12 +67,15 @@ class ProductCursorAdapter extends CursorAdapter {
 
         TextView nameTextView = view.findViewById(R.id.name);
         TextView descriptionTextView = view.findViewById(R.id.description);
+        TextView priceTextView = view.findViewById(R.id.price);
 
-        int productNameColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COL_PRODUCT_NAME);
-        int descriptionColumnIndex = cursor.getColumnIndex(InventoryContract.InventoryEntry.COL_PRODUCT_DESCRIPTION);
+        int productNameColumnIndex = cursor.getColumnIndex(InventoryEntry.COL_PRODUCT_NAME);
+        int descriptionColumnIndex = cursor.getColumnIndex(InventoryEntry.COL_PRODUCT_DESCRIPTION);
+        int priceColumnIndex =cursor.getColumnIndex(InventoryEntry.COL_PRODUCT_PRICE);
 
         String productName = cursor.getString(productNameColumnIndex);
         String productDescription = cursor.getString(descriptionColumnIndex);
+        String productPrice = cursor.getString(priceColumnIndex);
 
         // if there is no product description display default message
         if (TextUtils.isEmpty(productDescription)) {
@@ -81,6 +85,7 @@ class ProductCursorAdapter extends CursorAdapter {
 
         nameTextView.setText(productName);
         descriptionTextView.setText(productDescription);
+        priceTextView.setText(productPrice);
 
     }
 }

@@ -29,12 +29,14 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
     // int id for loader
     private static final int PRODUCT_LOADER = 0;
 
+    String SORT_ORDER = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_catalog);
 
-      //Floating AB
+        //Floating AB
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,7 +54,7 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
         mCursorAdapter = new ProductCursorAdapter(this, null);
         productListView.setAdapter(mCursorAdapter);
 
-      //onclick listener for items to open in editor
+        //onclick listener for items to open in editor
         productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
@@ -101,8 +103,41 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
 
     }
 
+    private void sortAsc() {
+        SORT_ORDER = InventoryEntry.COL_PRODUCT_NAME + " ASC";
+        getLoaderManager().restartLoader(PRODUCT_LOADER, null, this);
+    }
+
+    private void sortDesc() {
+
+        SORT_ORDER = InventoryEntry.COL_PRODUCT_NAME + " DESC";
+        getLoaderManager().restartLoader(PRODUCT_LOADER, null, this);
+    }
+
+    private void sortLowPrice() {
+
+        SORT_ORDER = InventoryEntry.COL_PRODUCT_PRICE + " ASC";
+        getLoaderManager().restartLoader(PRODUCT_LOADER, null, this);
+    }
+
+    private void sortHighPrice() {
+
+        SORT_ORDER = InventoryEntry.COL_PRODUCT_PRICE + " DESC";
+        getLoaderManager().restartLoader(PRODUCT_LOADER, null, this);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        String[] projection = {
+                InventoryEntry._ID,
+                InventoryEntry.COL_PRODUCT_NAME,
+                InventoryEntry.COL_PRODUCT_DESCRIPTION,
+                InventoryEntry.COL_PRODUCT_SUPPLIER,
+                InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE,
+                InventoryEntry.COL_PRODUCT_PRICE,
+                InventoryEntry.COL_PRODUCT_QUANTITY};
+
 
         switch (item.getItemId()) {
 
@@ -117,6 +152,33 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
                 deleteAllProducts();
 
                 return true;
+
+            case R.id.action_sort_asc:
+
+                sortAsc();
+
+                return true;
+
+            case R.id.action_sort_desc:
+
+                sortDesc();
+
+                return true;
+
+            case R.id.action_sort_price_low:
+
+
+                sortLowPrice();
+
+                return true;
+
+            case R.id.action_sort_price_high:
+
+
+                sortHighPrice();
+
+                return true;
+
         }
 
         return super.onOptionsItemSelected(item);
@@ -125,6 +187,7 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+
 
         String[] projection = {
                 InventoryEntry._ID,
@@ -136,7 +199,7 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
                 InventoryEntry.COL_PRODUCT_QUANTITY};
 
         return new CursorLoader(this, InventoryEntry.CONTENT_URI, projection, null,
-                null, null);
+                null, SORT_ORDER);
 
     }
 
@@ -146,9 +209,21 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
         mCursorAdapter.swapCursor(data);
 
     }
+
     @Override
 
     public void onLoaderReset(Loader<Cursor> loader) {
+        String[] projection = {
+                InventoryEntry._ID,
+                InventoryEntry.COL_PRODUCT_NAME,
+                InventoryEntry.COL_PRODUCT_DESCRIPTION,
+                InventoryEntry.COL_PRODUCT_SUPPLIER,
+                InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE,
+                InventoryEntry.COL_PRODUCT_PRICE,
+                InventoryEntry.COL_PRODUCT_QUANTITY};
+
+        new CursorLoader(this, InventoryEntry.CONTENT_URI, projection, null,
+                null, SORT_ORDER);
         mCursorAdapter.swapCursor(null);
     }
 

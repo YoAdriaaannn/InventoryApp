@@ -51,4 +51,24 @@
         android:id="@+id/action_delete_all_entries"
         android:title="Delete everything"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_sort_asc"
+        android:title="Sort By Name ASC"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_sort_desc"
+        android:title="Sort By Name DESC"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_sort_price_low"
+        android:title="Sort By Price Low To High"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_sort_price_high"
+        android:title="Sort By Price Hight To Low"
+        app:showAsAction="never" />
 </menu>
