@@ -17,7 +17,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.fr0stsp1re.inventoryapp.data.InventoryDbHelper;
 import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
 
 public class ProductCatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -29,7 +28,8 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
     // int id for loader
     private static final int PRODUCT_LOADER = 0;
 
-    String SORT_ORDER = "";
+    // string to store sort order
+    String mSortOrder = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +42,7 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ProductCatalogActivity.this, ProductEditorActivity.class);
-
                 startActivity(intent);
-
             }
         });
 
@@ -65,11 +63,8 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
                 startActivity(intent);
 
             }
-
         });
-
         getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
-
     }
 
     // call this to insert test data from strings.xml file
@@ -89,105 +84,69 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
     }
 
     private void deleteAllProducts() {
-
         int rowsDeleted = getContentResolver().delete(InventoryEntry.CONTENT_URI, null, null);
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_catalog, menu);
-
         return true;
-
     }
 
     private void sortAsc() {
-        SORT_ORDER = InventoryEntry.COL_PRODUCT_NAME + " ASC";
+        mSortOrder = InventoryEntry.COL_PRODUCT_NAME + " ASC";
         getLoaderManager().restartLoader(PRODUCT_LOADER, null, this);
     }
 
     private void sortDesc() {
-
-        SORT_ORDER = InventoryEntry.COL_PRODUCT_NAME + " DESC";
+        mSortOrder = InventoryEntry.COL_PRODUCT_NAME + " DESC";
         getLoaderManager().restartLoader(PRODUCT_LOADER, null, this);
     }
 
     private void sortLowPrice() {
-
-        SORT_ORDER = InventoryEntry.COL_PRODUCT_PRICE + " ASC";
+        mSortOrder = InventoryEntry.COL_PRODUCT_PRICE + " ASC";
         getLoaderManager().restartLoader(PRODUCT_LOADER, null, this);
     }
 
     private void sortHighPrice() {
-
-        SORT_ORDER = InventoryEntry.COL_PRODUCT_PRICE + " DESC";
+        mSortOrder = InventoryEntry.COL_PRODUCT_PRICE + " DESC";
         getLoaderManager().restartLoader(PRODUCT_LOADER, null, this);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        String[] projection = {
-                InventoryEntry._ID,
-                InventoryEntry.COL_PRODUCT_NAME,
-                InventoryEntry.COL_PRODUCT_DESCRIPTION,
-                InventoryEntry.COL_PRODUCT_SUPPLIER,
-                InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE,
-                InventoryEntry.COL_PRODUCT_PRICE,
-                InventoryEntry.COL_PRODUCT_QUANTITY};
-
-
         switch (item.getItemId()) {
 
             case R.id.action_insert_dummy_data:
-
                 insertNewDummyProduct();
-
                 return true;
 
             case R.id.action_delete_all_entries:
-
                 deleteAllProducts();
-
                 return true;
 
             case R.id.action_sort_asc:
-
                 sortAsc();
-
                 return true;
 
             case R.id.action_sort_desc:
-
                 sortDesc();
-
                 return true;
 
             case R.id.action_sort_price_low:
-
-
                 sortLowPrice();
-
                 return true;
 
             case R.id.action_sort_price_high:
-
-
                 sortHighPrice();
-
                 return true;
-
         }
-
         return super.onOptionsItemSelected(item);
-
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-
 
         String[] projection = {
                 InventoryEntry._ID,
@@ -199,20 +158,17 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
                 InventoryEntry.COL_PRODUCT_QUANTITY};
 
         return new CursorLoader(this, InventoryEntry.CONTENT_URI, projection, null,
-                null, SORT_ORDER);
-
+                null, mSortOrder);
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-
         mCursorAdapter.swapCursor(data);
-
     }
 
     @Override
-
     public void onLoaderReset(Loader<Cursor> loader) {
+
         String[] projection = {
                 InventoryEntry._ID,
                 InventoryEntry.COL_PRODUCT_NAME,
@@ -223,7 +179,7 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
                 InventoryEntry.COL_PRODUCT_QUANTITY};
 
         new CursorLoader(this, InventoryEntry.CONTENT_URI, projection, null,
-                null, SORT_ORDER);
+                null, mSortOrder);
         mCursorAdapter.swapCursor(null);
     }
 

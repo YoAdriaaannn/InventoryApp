@@ -55,6 +55,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -88,6 +89,13 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
     private EditText mQuantityEditText;
 
+    // edit buttons
+    private Button mUnlockEditButton;
+
+    private Button mLockEditButton;
+
+    private Button mDeleteButton;
+
     // on touch listener
     private final View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -114,18 +122,24 @@ public class ProductEditorActivity extends AppCompatActivity implements
             invalidateOptionsMenu();
 
         } else {
-            // the uri is not empty so there is a product to edit. set the title to edit product
-            setTitle("Edit Product");
+            // the uri is not empty
+            setTitle("Product Detail");
             getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
 
         }
 
+        // edittext fields
         mNameEditText = (EditText) findViewById(R.id.edit_product_name);
         mDescriptionEditText = (EditText) findViewById(R.id.edit_product_description);
         mSupplierEditText = (EditText) findViewById(R.id.edit_supplier);
         mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_supplier_phone);
         mPriceEditText = (EditText) findViewById(R.id.edit_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
+
+        //edit buttons
+        mUnlockEditButton = findViewById(R.id.edit_unlock_single_item);
+        mLockEditButton = findViewById(R.id.edit_lock_single_item);
+        mDeleteButton = findViewById(R.id.edit_delete_single_item);
 
         // on touch listeners used to detrermine if data has been modified or touched for any particular field
         mNameEditText.setOnTouchListener(mTouchListener);
@@ -134,6 +148,44 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mSupplierPhoneEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
+
+        // unlock editing
+        mUnlockEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                enableEdit();
+            }
+        });
+        // lock editing
+        mLockEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                disableEdit();
+            }
+        });
+        // delete
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteConfirmationDialog();
+            }
+        });
+
+        // disable edittext boxes until enabled for editing.
+        mNameEditText.setEnabled(false);
+        mDescriptionEditText.setEnabled(false);
+        mSupplierEditText.setEnabled(false);
+        mSupplierPhoneEditText.setEnabled(false);
+        mDescriptionEditText.setEnabled(false);
+        mPriceEditText.setEnabled(false);
+        mQuantityEditText.setEnabled(false);
+
+        // disable all but the editing unlock button
+        mDeleteButton.setVisibility(View.INVISIBLE);
+        mUnlockEditButton.setVisibility(View.VISIBLE);
+        mLockEditButton.setVisibility(View.INVISIBLE);
+
+
 
     }
 
@@ -196,7 +248,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
             if (rowsAffected == 0) {
 
-                Toast.makeText(this, "Error Updating!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error Updating!", Toast.LENGTH_SHORT).show();
 
             } else {
 
@@ -373,7 +425,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
     }
 
     /**
-     *   confirmation dialog boxes
+     * confirmation dialog boxes
      */
 
     // usaved changes dialog
@@ -419,4 +471,49 @@ public class ProductEditorActivity extends AppCompatActivity implements
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+    // enable editing of product
+    private void enableEdit() {
+
+        setTitle("Edit Product");
+
+        // disable edittext boxes until enabled for editing.
+        mNameEditText.setEnabled(true);
+        mDescriptionEditText.setEnabled(true);
+        mSupplierEditText.setEnabled(true);
+        mSupplierPhoneEditText.setEnabled(true);
+        mDescriptionEditText.setEnabled(true);
+        mPriceEditText.setEnabled(true);
+        mQuantityEditText.setEnabled(true);
+
+        // hide and show buttons
+        mDeleteButton.setVisibility(View.VISIBLE);
+        mUnlockEditButton.setVisibility(View.INVISIBLE);
+        mLockEditButton.setVisibility(View.VISIBLE);
+
+
+    }
+
+    // disable and lock editing
+    private void disableEdit() {
+
+        setTitle("Product Details");
+        // disable edittext boxes until enabled for editing.
+        mNameEditText.setEnabled(false);
+        mDescriptionEditText.setEnabled(false);
+        mSupplierEditText.setEnabled(false);
+        mSupplierPhoneEditText.setEnabled(false);
+        mDescriptionEditText.setEnabled(false);
+        mPriceEditText.setEnabled(false);
+        mQuantityEditText.setEnabled(false);
+
+        // hide and show buttons
+        mDeleteButton.setVisibility(View.INVISIBLE);
+        mUnlockEditButton.setVisibility(View.VISIBLE);
+        mLockEditButton.setVisibility(View.INVISIBLE);
+
+        //save product
+        saveProduct();
+    }
+
 }

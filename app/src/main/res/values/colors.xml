@@ -12,7 +12,7 @@
 -->
 <resources>
 
-    <color name="colorPrimary">#00f2c6</color>
+    <color name="colorPrimary">#378c7c</color>
     <color name="colorPrimaryDark">#006653</color>
     <color name="colorAccent">#538077</color>
     <color name="editorColorPrimary">#00ffd4</color>
