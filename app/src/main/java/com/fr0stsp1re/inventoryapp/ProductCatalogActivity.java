@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
+import com.fr0stsp1re.inventoryapp.ProductEditorActivity;
 
 public class ProductCatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -62,6 +63,7 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
                 intent.setData(currentProductUri);
                 startActivity(intent);
 
+
             }
         });
         getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
@@ -93,6 +95,9 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
         return true;
     }
 
+    /**
+     *  sort methods
+     */
     private void sortAsc() {
         mSortOrder = InventoryEntry.COL_PRODUCT_NAME + " ASC";
         getLoaderManager().restartLoader(PRODUCT_LOADER, null, this);

@@ -38,6 +38,7 @@
 
 package com.fr0stsp1re.inventoryapp;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -45,9 +46,11 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -57,6 +60,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
@@ -90,11 +94,17 @@ public class ProductEditorActivity extends AppCompatActivity implements
     private EditText mQuantityEditText;
 
     // edit buttons
-    private Button mUnlockEditButton;
+    private ImageButton mUnlockEditButton;
 
-    private Button mLockEditButton;
+    private ImageButton mLockEditButton;
 
-    private Button mDeleteButton;
+    private ImageButton mDeleteButton;
+
+    private ImageButton mAdjustQuantityUpButton;
+
+    private ImageButton mAdjustQuantityDownButton;
+
+    private ImageButton mCallSupplierButton;
 
     // on touch listener
     private final View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -136,10 +146,13 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mPriceEditText = (EditText) findViewById(R.id.edit_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
 
-        //edit buttons
+        //edit buttons and action buttons
         mUnlockEditButton = findViewById(R.id.edit_unlock_single_item);
         mLockEditButton = findViewById(R.id.edit_lock_single_item);
         mDeleteButton = findViewById(R.id.edit_delete_single_item);
+        mAdjustQuantityUpButton = findViewById(R.id.edit_quantity_button_plus);
+        mAdjustQuantityDownButton = findViewById(R.id.edit_quantity_button_minus);
+        mCallSupplierButton = findViewById(R.id.edit_call_supplier);
 
         // on touch listeners used to detrermine if data has been modified or touched for any particular field
         mNameEditText.setOnTouchListener(mTouchListener);
@@ -171,6 +184,30 @@ public class ProductEditorActivity extends AppCompatActivity implements
             }
         });
 
+        // order more
+        mCallSupplierButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                orderFunction();
+            }
+        });
+
+        // increase quantity
+        mAdjustQuantityUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                increaseQuantity();
+            }
+        });
+
+        //decrease quantity
+        mAdjustQuantityDownButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                decreaseQuantity();
+            }
+        });
+
         // disable edittext boxes until enabled for editing.
         mNameEditText.setEnabled(false);
         mDescriptionEditText.setEnabled(false);
@@ -184,6 +221,9 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mDeleteButton.setVisibility(View.INVISIBLE);
         mUnlockEditButton.setVisibility(View.VISIBLE);
         mLockEditButton.setVisibility(View.INVISIBLE);
+        mAdjustQuantityDownButton.setVisibility(View.INVISIBLE);
+        mAdjustQuantityUpButton.setVisibility(View.INVISIBLE);
+
 
 
 
@@ -490,6 +530,8 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mDeleteButton.setVisibility(View.VISIBLE);
         mUnlockEditButton.setVisibility(View.INVISIBLE);
         mLockEditButton.setVisibility(View.VISIBLE);
+        mAdjustQuantityDownButton.setVisibility(View.VISIBLE);
+        mAdjustQuantityUpButton.setVisibility(View.VISIBLE);
 
 
     }
@@ -511,9 +553,50 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mDeleteButton.setVisibility(View.INVISIBLE);
         mUnlockEditButton.setVisibility(View.VISIBLE);
         mLockEditButton.setVisibility(View.INVISIBLE);
+        mAdjustQuantityUpButton.setVisibility(View.INVISIBLE);
+        mAdjustQuantityDownButton.setVisibility(View.INVISIBLE);
 
         //save product
         saveProduct();
     }
 
+    //order more
+    private void orderFunction() {
+
+
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+                    // Make a call
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mSupplierPhoneEditText.getText().toString()));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(this, "Phone not available!", Toast.LENGTH_SHORT).show();
+                    mSupplierPhoneEditText.requestFocus();
+                }
+
+    }
+
+    private void increaseQuantity() {
+        String previousValueString = mQuantityEditText.getText().toString();
+        int previousValue;
+        if (previousValueString.isEmpty()) {
+            return;
+        } else if (previousValueString.equals("0")) {
+            return;
+        } else {
+            previousValue = Integer.parseInt(previousValueString);
+            mQuantityEditText.setText(String.valueOf(previousValue - 1));
+        }
+    }
+
+    private void decreaseQuantity() {
+        String previousValueString = mQuantityEditText.getText().toString();
+        int previousValue;
+        if (previousValueString.isEmpty()) {
+            previousValue = 0;
+        } else {
+            previousValue = Integer.parseInt(previousValueString);
+        }
+        mQuantityEditText.setText(String.valueOf(previousValue + 1));
+    }
 }
+
