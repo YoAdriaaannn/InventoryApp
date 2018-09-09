@@ -166,16 +166,24 @@
             android:id="@+id/layout_product_quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/quantity_label"
                 style="@style/EditorTextBoxStyle"
-
                 android:layout_below="@id/price_label"
                 android:layout_toLeftOf="@id/quantity_label"
                 android:text="Quantity" />
+
+            <ImageButton
+                android:id="@+id/edit_quantity_button_minus"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="left"
+                android:background="@drawable/ic_remove_black_24dp"
+                android:backgroundTint="@color/colorAccent"
+                android:padding="@dimen/padding_small"
+                android:scaleType="centerInside" />
 
 
             <EditText
@@ -184,6 +192,17 @@
                 android:layout_below="@id/edit_price"
                 android:hint="Quantity"
                 android:inputType="textCapWords" />
+
+
+            <ImageButton
+                android:id="@+id/edit_quantity_button_plus"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_gravity="left"
+                android:background="@drawable/ic_add_black_24dp"
+                android:backgroundTint="@color/colorAccent"
+                android:padding="@dimen/padding_small"
+                android:scaleType="centerInside" />
 
 
         </LinearLayout>
@@ -195,25 +214,6 @@
             android:orientation="horizontal">
 
 
-            <ImageButton
-                android:id="@+id/edit_quantity_button_minus"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_gravity="left"
-                android:background="@drawable/ic_remove_black_24dp"
-                android:backgroundTint="@color/colorAccent"
-                android:scaleType="centerInside" />
-
-            <ImageButton
-                android:id="@+id/edit_quantity_button_plus"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:layout_gravity="left"
-                android:background="@drawable/ic_add_black_24dp"
-                android:backgroundTint="@color/colorAccent"
-                android:scaleType="centerInside" />
-
-
         </LinearLayout>
 
 
@@ -221,45 +221,49 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/activity_margin"
             android:layout_marginTop="@dimen/activity_margin"
-            android:orientation="horizontal">
+
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_large">
 
             <ImageButton
                 android:id="@+id/edit_unlock_single_item"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-
                 android:background="@drawable/ic_lock_open_black_24dp"
                 android:backgroundTint="@color/colorAccent"
+                android:padding="@dimen/padding_small"
                 android:scaleType="centerInside" />
 
             <ImageButton
                 android:id="@+id/edit_lock_single_item"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-
                 android:background="@drawable/ic_lock_outline_black_24dp"
                 android:backgroundTint="@color/colorAccent"
+                android:padding="@dimen/padding_small"
                 android:scaleType="centerInside" />
 
             <ImageButton
                 android:id="@+id/edit_delete_single_item"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-
                 android:background="@drawable/ic_delete_forever_black_24dp"
                 android:backgroundTint="@color/colorAccent"
+                android:padding="@dimen/padding_small"
                 android:scaleType="centerInside" />
 
             <ImageButton
                 android:id="@+id/edit_call_supplier"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-
                 android:background="@drawable/ic_phone_black_24dp"
                 android:backgroundTint="@color/colorAccent"
+                android:padding="@dimen/padding_small"
                 android:scaleType="centerInside" />
+
         </LinearLayout>
 
     </LinearLayout>

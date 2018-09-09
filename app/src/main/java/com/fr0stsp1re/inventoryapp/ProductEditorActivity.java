@@ -69,46 +69,18 @@ import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
 public class ProductEditorActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
-    // phone permission
-    private int PHONE_PERMISSION_REQUEST = 1;
     // loader id
     private static final int EXISTING_PRODUCT_LOADER = 0;
-
-    // product uri
-    private Uri mCurrentProductUri;
-
     // content value object
     private final ContentValues values = new ContentValues();
-
+    // phone permission
+    private int PHONE_PERMISSION_REQUEST = 1;
+    // product uri
+    private Uri mCurrentProductUri;
+    //flag for unlock button
+    private boolean mUnlockFlag = false;
     // boolean flag for change indicator
     private boolean mProductHasChanged = false;
-
-    // edittext fields
-    private EditText mNameEditText;
-
-    private EditText mDescriptionEditText;
-
-    private EditText mSupplierEditText;
-
-    private EditText mSupplierPhoneEditText;
-
-    private EditText mPriceEditText;
-
-    private EditText mQuantityEditText;
-
-    // edit buttons
-    private ImageButton mUnlockEditButton;
-
-    private ImageButton mLockEditButton;
-
-    private ImageButton mDeleteButton;
-
-    private ImageButton mAdjustQuantityUpButton;
-
-    private ImageButton mAdjustQuantityDownButton;
-
-    private ImageButton mCallSupplierButton;
-
     // on touch listener
     private final View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -117,6 +89,20 @@ public class ProductEditorActivity extends AppCompatActivity implements
             return false;
         }
     };
+    // edittext fields
+    private EditText mNameEditText;
+    private EditText mDescriptionEditText;
+    private EditText mSupplierEditText;
+    private EditText mSupplierPhoneEditText;
+    private EditText mPriceEditText;
+    private EditText mQuantityEditText;
+    // edit buttons
+    private ImageButton mUnlockEditButton;
+    private ImageButton mLockEditButton;
+    private ImageButton mDeleteButton;
+    private ImageButton mAdjustQuantityUpButton;
+    private ImageButton mAdjustQuantityDownButton;
+    private ImageButton mCallSupplierButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,7 +208,11 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
         // disable all but the editing unlock button
         mDeleteButton.setVisibility(View.INVISIBLE);
+
+        // set unlock button and flag to be visible
         mUnlockEditButton.setVisibility(View.VISIBLE);
+        mUnlockFlag = true; // flag set to one means button is visible
+
         mLockEditButton.setVisibility(View.INVISIBLE);
         mAdjustQuantityDownButton.setVisibility(View.INVISIBLE);
         mAdjustQuantityUpButton.setVisibility(View.INVISIBLE);
@@ -331,14 +321,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
 
-        // hide delete if new product
-        if (mCurrentProductUri == null) {
-
-            MenuItem menuItem = menu.findItem(R.id.action_delete);
-            menuItem.setVisible(false);
-
-        }
-
         return true;
     }
 
@@ -347,43 +329,33 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
         switch (item.getItemId()) {
 
-            case R.id.action_save:
-
-                saveProduct();
-                finish();
-                return true;
-
-            case R.id.action_delete:
-
-                showDeleteConfirmationDialog();
-                return true;
 
             case android.R.id.home:
 
-                if (!mProductHasChanged) {
-                    NavUtils.navigateUpFromSameTask(ProductEditorActivity.this);
+                // check to see if unlock button is unlocked. if so there must be an unsaved change
+                // and the lock must be set before going back.
+                if (!mUnlockFlag) {
+                    if (!mProductHasChanged) {
+                        NavUtils.navigateUpFromSameTask(ProductEditorActivity.this);
+                        return true;
+                    }
+                    DialogInterface.OnClickListener discardButtonClickListener =
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    NavUtils.navigateUpFromSameTask(ProductEditorActivity.this);
+                                }
+                            };
+                    showUnsavedChangesDialog(discardButtonClickListener);
                     return true;
                 }
-
-                DialogInterface.OnClickListener discardButtonClickListener =
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                                NavUtils.navigateUpFromSameTask(ProductEditorActivity.this);
-                            }
-                        };
-
-                showUnsavedChangesDialog(discardButtonClickListener);
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-
-        if (!mProductHasChanged) {
+        if (!mProductHasChanged && mUnlockFlag) {
             super.onBackPressed();
             return;
         }
@@ -392,11 +364,9 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
                         finish();
                     }
                 };
-
         showUnsavedChangesDialog(discardButtonClickListener);
     }
 
@@ -421,7 +391,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-
 
         if (cursor == null || cursor.getCount() < 1) {
             return;
@@ -482,13 +451,14 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
                 if (dialog != null) {
                     dialog.dismiss();
+
                 }
             }
         });
 
-
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+
     }
 
     // alert dialog box for deleting a product
@@ -501,6 +471,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 deleteProduct();
             }
         });
+
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if (dialog != null) {
@@ -512,7 +483,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
-
 
 
     //alert dialog to order more
@@ -544,7 +514,11 @@ public class ProductEditorActivity extends AppCompatActivity implements
     // enable editing of product
     private void enableEdit() {
 
+        // set title of activity
         setTitle("Edit Product");
+
+        //set unlock flag
+        mUnlockFlag = false;
 
         // disable edittext boxes until enabled for editing.
         mNameEditText.setEnabled(true);
@@ -568,7 +542,12 @@ public class ProductEditorActivity extends AppCompatActivity implements
     // disable and lock editing
     private void disableEdit() {
 
+        // set title of activity
         setTitle("Product Details");
+
+        // set unlock flag
+        mUnlockFlag = true;
+
         // disable edittext boxes until enabled for editing.
         mNameEditText.setEnabled(false);
         mDescriptionEditText.setEnabled(false);

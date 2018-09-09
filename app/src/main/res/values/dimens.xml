@@ -44,5 +44,11 @@
     <!-- App common margin  -->
     <dimen name="activity_margin">16dp</dimen>
 
+    <!-- App small padding  -->
+    <dimen name="padding_small">8dp</dimen>
+
+    <!-- App large padding  -->
+    <dimen name="padding_large">16dp</dimen>
+
 </resources>
 
