@@ -161,7 +161,7 @@
 
         </LinearLayout>
 
- <!-- quantity layout -->
+        <!-- quantity layout -->
         <LinearLayout
             android:id="@+id/layout_product_quantity"
             android:layout_width="match_parent"
@@ -178,10 +178,6 @@
                 android:text="Quantity" />
 
 
-
-
-
-
             <EditText
                 android:id="@+id/edit_quantity"
                 style="@style/EditorFieldStyle"
@@ -190,9 +186,8 @@
                 android:inputType="textCapWords" />
 
 
-
-
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/layout_product_quantity_buttons"
             android:layout_width="match_parent"
@@ -200,21 +195,23 @@
             android:orientation="horizontal">
 
 
-
             <ImageButton
                 android:id="@+id/edit_quantity_button_minus"
-                android:background="@drawable/ic_remove_black_24dp"
-                android:layout_gravity="left"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
-                android:scaleType="centerInside"/>
+                android:layout_gravity="left"
+                android:background="@drawable/ic_remove_black_24dp"
+                android:backgroundTint="@color/colorAccent"
+                android:scaleType="centerInside" />
+
             <ImageButton
                 android:id="@+id/edit_quantity_button_plus"
-                android:layout_gravity="left"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
+                android:layout_gravity="left"
                 android:background="@drawable/ic_add_black_24dp"
-                android:scaleType="centerInside"/>
+                android:backgroundTint="@color/colorAccent"
+                android:scaleType="centerInside" />
 
 
         </LinearLayout>

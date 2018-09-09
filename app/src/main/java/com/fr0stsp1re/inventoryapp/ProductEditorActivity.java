@@ -52,6 +52,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -68,6 +69,8 @@ import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
 public class ProductEditorActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
+    // phone permission
+    private int PHONE_PERMISSION_REQUEST = 1;
     // loader id
     private static final int EXISTING_PRODUCT_LOADER = 0;
 
@@ -188,7 +191,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mCallSupplierButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderFunction();
+                showOrderConfirmationDialog();
             }
         });
 
@@ -223,8 +226,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mLockEditButton.setVisibility(View.INVISIBLE);
         mAdjustQuantityDownButton.setVisibility(View.INVISIBLE);
         mAdjustQuantityUpButton.setVisibility(View.INVISIBLE);
-
-
 
 
     }
@@ -512,6 +513,34 @@ public class ProductEditorActivity extends AppCompatActivity implements
         alertDialog.show();
     }
 
+
+
+    //alert dialog to order more
+
+    private void showOrderConfirmationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Call to order this item?");
+        builder.setPositiveButton("Call", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // intent to phone
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + mSupplierPhoneEditText.getText().toString().trim()));
+                startActivity(intent);
+            }
+        });
+
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
     // enable editing of product
     private void enableEdit() {
 
@@ -560,22 +589,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
         saveProduct();
     }
 
-    //order more
-    private void orderFunction() {
-
-
-                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
-                    // Make a call
-                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + mSupplierPhoneEditText.getText().toString()));
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(this, "Phone not available!", Toast.LENGTH_SHORT).show();
-                    mSupplierPhoneEditText.requestFocus();
-                }
-
-    }
-
-    private void increaseQuantity() {
+    private void decreaseQuantity() {
         String previousValueString = mQuantityEditText.getText().toString();
         int previousValue;
         if (previousValueString.isEmpty()) {
@@ -588,7 +602,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
         }
     }
 
-    private void decreaseQuantity() {
+    private void increaseQuantity() {
         String previousValueString = mQuantityEditText.getText().toString();
         int previousValue;
         if (previousValueString.isEmpty()) {
@@ -598,5 +612,28 @@ public class ProductEditorActivity extends AppCompatActivity implements
         }
         mQuantityEditText.setText(String.valueOf(previousValue + 1));
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+        }
+    }
+
 }
 
