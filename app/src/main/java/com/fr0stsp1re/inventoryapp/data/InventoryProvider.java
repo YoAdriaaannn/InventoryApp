@@ -46,8 +46,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
-import com.fr0stsp1re.inventoryapp.InventoryItem;
-import com.fr0stsp1re.inventoryapp.R;
 import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
 
 public class InventoryProvider extends ContentProvider {
@@ -58,19 +56,12 @@ public class InventoryProvider extends ContentProvider {
     // uri int matcher for single product
     private static final int PRODUCT_ID = 101;
 
-
-    private static final int SORT_ID_ASC = 200;
-    private static final int SORT_ID_DES = 201;
-
     // uri matcher object
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
 
     static {
-
         sUriMatcher.addURI(InventoryContract.CONTENT_AUTHORITY, InventoryContract.PATH_PRODUCT, PRODUCT);
         sUriMatcher.addURI(InventoryContract.CONTENT_AUTHORITY, InventoryContract.PATH_PRODUCT + "/#", PRODUCT_ID);
-
-
     }
 
     // db helper object
@@ -78,11 +69,8 @@ public class InventoryProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-
         mDbHelper = new InventoryDbHelper(getContext());
-
         return true;
-
     }
 
     @Override
@@ -143,7 +131,6 @@ public class InventoryProvider extends ContentProvider {
                 throw new IllegalArgumentException("Insertion is not supported for " + uri);
 
         }
-
     }
 
     private Uri insertProduct(Uri uri, ContentValues values) {
@@ -173,8 +160,6 @@ public class InventoryProvider extends ContentProvider {
         getContext().getContentResolver().notifyChange(uri, null);
         return ContentUris.withAppendedId(uri, id);
     }
-
-
 
     @Override
     public int update(Uri uri, ContentValues contentValues, String selection,
@@ -315,6 +300,4 @@ public class InventoryProvider extends ContentProvider {
         }
 
     }
-
-
 }

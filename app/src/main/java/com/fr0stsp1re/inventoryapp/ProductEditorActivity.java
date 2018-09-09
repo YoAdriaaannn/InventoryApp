@@ -38,7 +38,6 @@
 
 package com.fr0stsp1re.inventoryapp;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -50,16 +49,13 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -71,16 +67,22 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
     // loader id
     private static final int EXISTING_PRODUCT_LOADER = 0;
+
     // content value object
     private final ContentValues values = new ContentValues();
+
     // phone permission
     private int PHONE_PERMISSION_REQUEST = 1;
+
     // product uri
     private Uri mCurrentProductUri;
+
     //flag for unlock button
     private boolean mUnlockFlag = false;
+
     // boolean flag for change indicator
     private boolean mProductHasChanged = false;
+
     // on touch listener
     private final View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -89,6 +91,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
             return false;
         }
     };
+
     // edittext fields
     private EditText mNameEditText;
     private EditText mDescriptionEditText;
@@ -97,6 +100,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
     private EditText mPriceEditText;
     private EditText mQuantityEditText;
     // edit buttons
+
     private ImageButton mUnlockEditButton;
     private ImageButton mLockEditButton;
     private ImageButton mDeleteButton;
@@ -109,22 +113,19 @@ public class ProductEditorActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        // grab the intent from the catalog page and see if we need to set the title of the pge to
+        // grab the intent from the catalog page and see if we need to set the title of the page to
         // edit or add and new product
         Intent intent = getIntent();
         mCurrentProductUri = intent.getData();
 
         // check if uri is empty. if so set title to add new product
         if (mCurrentProductUri == null) {
-
             setTitle("Add New Product");
             invalidateOptionsMenu();
-
         } else {
             // the uri is not empty
             setTitle("Product Detail");
             getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
-
         }
 
         // edittext fields
@@ -158,6 +159,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 enableEdit();
             }
         });
+
         // lock editing
         mLockEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,6 +167,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 disableEdit();
             }
         });
+
         // delete
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,7 +220,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mAdjustQuantityDownButton.setVisibility(View.INVISIBLE);
         mAdjustQuantityUpButton.setVisibility(View.INVISIBLE);
 
-
     }
 
     private void saveProduct() {
@@ -234,9 +236,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 TextUtils.isEmpty(nameString) && TextUtils.isEmpty(descriptionString) &&
                 TextUtils.isEmpty(supplierString) && TextUtils.isEmpty(supplierPhoneString) &&
                 TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString)) {
-
             return;
-
         }
 
         values.put(InventoryEntry.COL_PRODUCT_NAME, nameString);
@@ -250,18 +250,14 @@ public class ProductEditorActivity extends AppCompatActivity implements
         int quantity = 0;
 
         if (!TextUtils.isEmpty(quantityString)) {
-
             quantity = Integer.parseInt(quantityString);
-
         }
 
         values.put(InventoryEntry.COL_PRODUCT_QUANTITY, quantity);
 
         // Determine if this is a new or existing product by checking if mCurrentProductUri is null or not
         if (mCurrentProductUri == null) {
-
             Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
-
             if (newUri == null) {
                 // If the new content URI is null, then there was an error with insertion.
                 Toast.makeText(this, "Error Saving",
@@ -272,23 +268,15 @@ public class ProductEditorActivity extends AppCompatActivity implements
                         Toast.LENGTH_SHORT).show();
             }
         } else {
-
             //existing product
             int rowsAffected = getContentResolver().update(mCurrentProductUri, values, null, null);
 
-
             if (rowsAffected == 0) {
-
                 Toast.makeText(this, "Error Updating!", Toast.LENGTH_SHORT).show();
-
             } else {
-
                 Toast.makeText(this, "Product Updated", Toast.LENGTH_SHORT).show();
-
             }
-
         }
-
     }
 
     private void deleteProduct() {
@@ -310,28 +298,20 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.menu_editor, menu);
-
         return true;
-
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
-
-
             case android.R.id.home:
-
                 // check to see if unlock button is unlocked. if so there must be an unsaved change
                 // and the lock must be set before going back.
                 if (!mUnlockFlag) {
@@ -359,7 +339,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
             super.onBackPressed();
             return;
         }
-
         DialogInterface.OnClickListener discardButtonClickListener =
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -486,7 +465,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
 
     //alert dialog to order more
-
     private void showOrderConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("Call to order this item?");
@@ -498,7 +476,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 startActivity(intent);
             }
         });
-
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if (dialog != null) {
@@ -506,7 +483,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 }
             }
         });
-
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
@@ -535,7 +511,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mLockEditButton.setVisibility(View.VISIBLE);
         mAdjustQuantityDownButton.setVisibility(View.VISIBLE);
         mAdjustQuantityUpButton.setVisibility(View.VISIBLE);
-
 
     }
 
@@ -608,11 +583,9 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 }
                 return;
             }
-
             // other 'case' lines to check for other
             // permissions this app might request.
         }
     }
-
 }
 

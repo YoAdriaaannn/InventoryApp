@@ -6,7 +6,6 @@ import android.content.ContentValues;
 import android.content.Loader;
 import android.content.res.Resources;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -20,33 +19,22 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
-import com.fr0stsp1re.inventoryapp.data.InventoryDbHelper;
-
 
 public class ProductCatalogActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-
 
     // listview adapter
     private ProductCursorAdapter mCursorAdapter;
 
-    //dbhelper
-
-    InventoryDbHelper dbHelper;
     // int id for loader
     private static final int PRODUCT_LOADER = 0;
 
     // string to store sort order
     String mSortOrder = "";
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_catalog);
-
-
-
 
         //Floating AB
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -74,15 +62,12 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
                 intent.setData(currentProductUri);
                 startActivity(intent);
 
-
             }
         });
         getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
     }
 
-
-
-    // call this to insert test data from strings.xml file
+    // call this to insert test data from array.xml file
     private void insertNewDummyProduct() {
 
         Resources res = getResources();
@@ -107,8 +92,6 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
             Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, v);
         }
     }
-
-
 
     private void deleteAllProducts() {
         int rowsDeleted = getContentResolver().delete(InventoryEntry.CONTENT_URI, null, null);
@@ -212,5 +195,4 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
                 null, mSortOrder);
         mCursorAdapter.swapCursor(null);
     }
-
 }

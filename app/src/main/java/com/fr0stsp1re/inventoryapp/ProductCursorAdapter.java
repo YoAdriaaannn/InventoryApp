@@ -53,7 +53,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
 
 import static android.content.ContentValues.TAG;
@@ -94,13 +93,11 @@ class ProductCursorAdapter extends CursorAdapter {
 
         // if there is no product description display default message
         if (TextUtils.isEmpty(productDescription)) {
-
             productDescription = context.getString(R.string.no_product_description);
         }
 
         // if there is no product description display default message
         if (productQuantity <=0) {
-
             quantityTextViewLabel.setText("OUT OF STOCK");
         }
 
@@ -118,7 +115,6 @@ class ProductCursorAdapter extends CursorAdapter {
                 adjustProductQuantity(context, productUri, productQuantity);
             }
         });
-
     }
 
     private void adjustProductQuantity(Context context, Uri productUri, int currentQuantityInStock) {
@@ -142,8 +138,6 @@ class ProductCursorAdapter extends CursorAdapter {
             // Show error message in Logs with info about fail update.
             Log.e(TAG, "Update failed");
         }
-
-
     }
 }
 
