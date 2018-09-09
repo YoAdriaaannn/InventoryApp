@@ -46,6 +46,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
+import com.fr0stsp1re.inventoryapp.InventoryItem;
+import com.fr0stsp1re.inventoryapp.R;
 import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
 
 public class InventoryProvider extends ContentProvider {
@@ -171,6 +173,8 @@ public class InventoryProvider extends ContentProvider {
         getContext().getContentResolver().notifyChange(uri, null);
         return ContentUris.withAppendedId(uri, id);
     }
+
+
 
     @Override
     public int update(Uri uri, ContentValues contentValues, String selection,

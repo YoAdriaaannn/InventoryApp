@@ -38,10 +38,14 @@
 
 package com.fr0stsp1re.inventoryapp.data;
 
+
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+
+import com.fr0stsp1re.inventoryapp.InventoryItem;
 import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
 
 public class InventoryDbHelper extends SQLiteOpenHelper {
@@ -72,6 +76,22 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+
+    public void insertSampleData(InventoryItem item) {
+
+        SQLiteDatabase database = this.getWritableDatabase();
+        ContentValues v = new ContentValues();
+
+        v.put(InventoryEntry.COL_PRODUCT_NAME, item.getProductName());
+        v.put(InventoryEntry.COL_PRODUCT_DESCRIPTION, item.getProductDescription());
+        v.put(InventoryEntry.COL_PRODUCT_SUPPLIER, item.getSupplierName());
+        v.put(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE, item.getSupplierPhone());
+        v.put(InventoryEntry.COL_PRODUCT_PRICE, item.getPrice());
+        v.put(InventoryEntry.COL_PRODUCT_QUANTITY, item.getQuantity());
+
+        long id = database.insert(InventoryEntry.TABLE_NAME, null, v);
 
     }
 

@@ -77,6 +77,7 @@ class ProductCursorAdapter extends CursorAdapter {
         TextView descriptionTextView = view.findViewById(R.id.description);
         TextView priceTextView = view.findViewById(R.id.price);
         TextView quantityTextView = view.findViewById(R.id.quantity);
+        TextView quantityTextViewLabel = view.findViewById(R.id.quantity_label);
         ImageButton buyImageButton = view.findViewById(R.id.list_view_add_to_cart);
 
         final int productIdColumnIndex = cursor.getInt(cursor.getColumnIndex(InventoryEntry._ID));
@@ -97,11 +98,17 @@ class ProductCursorAdapter extends CursorAdapter {
             productDescription = context.getString(R.string.no_product_description);
         }
 
+        // if there is no product description display default message
+        if (productQuantity <=0) {
+
+            quantityTextViewLabel.setText("OUT OF STOCK");
+        }
+
         // update textviews with current product
         nameTextView.setText(productName);
         descriptionTextView.setText(productDescription);
         priceTextView.setText("$" + productPrice);
-        quantityTextView.setText(String.valueOf(productQuantity + " pcs"));
+        quantityTextView.setText(String.valueOf(productQuantity));
 
         // onclick listener for buy imagebutton
         buyImageButton.setOnClickListener(new View.OnClickListener() {
