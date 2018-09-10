@@ -113,21 +113,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        // grab the intent from the catalog page and see if we need to set the title of the page to
-        // edit or add and new product
-        Intent intent = getIntent();
-        mCurrentProductUri = intent.getData();
-
-        // check if uri is empty. if so set title to add new product
-        if (mCurrentProductUri == null) {
-            setTitle("Add New Product");
-            invalidateOptionsMenu();
-        } else {
-            // the uri is not empty
-            setTitle("Product Detail");
-            getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
-        }
-
         // edittext fields
         mNameEditText = (EditText) findViewById(R.id.edit_product_name);
         mDescriptionEditText = (EditText) findViewById(R.id.edit_product_description);
@@ -152,11 +137,53 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mPriceEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
 
+        // disable edittext boxes until enabled for editing.
+        mNameEditText.setEnabled(false);
+        mDescriptionEditText.setEnabled(false);
+        mSupplierEditText.setEnabled(false);
+        mSupplierPhoneEditText.setEnabled(false);
+        mDescriptionEditText.setEnabled(false);
+        mPriceEditText.setEnabled(false);
+        mQuantityEditText.setEnabled(false);
+
+        // disable all but the editing unlock button
+        mDeleteButton.setVisibility(View.INVISIBLE);
+
+        // set unlock button and flag to be visible
+        mUnlockEditButton.setVisibility(View.VISIBLE);
+        mUnlockFlag = true; // flag set to one means button is visible
+
+        mLockEditButton.setVisibility(View.INVISIBLE);
+        mAdjustQuantityDownButton.setVisibility(View.INVISIBLE);
+        mAdjustQuantityUpButton.setVisibility(View.INVISIBLE);
+
+
+        // grab the intent from the catalog page and see if we need to set the title of the page to
+        // edit or add and new product
+        Intent intent = getIntent();
+        mCurrentProductUri = intent.getData();
+
+        // check if uri is empty. if so set title to add new product
+        if (mCurrentProductUri == null) {
+
+            enableEdit();
+            setTitle("Add New Product");
+            invalidateOptionsMenu();
+
+        } else {
+            // the uri is not empty
+            setTitle("Product Detail");
+            getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
+        }
+
+
         // unlock editing
         mUnlockEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 enableEdit();
+                // set title of activity
+                setTitle("Edit Product");
             }
         });
 
@@ -165,6 +192,8 @@ public class ProductEditorActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 disableEdit();
+                // set title of activity
+                setTitle("Product Details");
             }
         });
 
@@ -200,25 +229,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
             }
         });
 
-        // disable edittext boxes until enabled for editing.
-        mNameEditText.setEnabled(false);
-        mDescriptionEditText.setEnabled(false);
-        mSupplierEditText.setEnabled(false);
-        mSupplierPhoneEditText.setEnabled(false);
-        mDescriptionEditText.setEnabled(false);
-        mPriceEditText.setEnabled(false);
-        mQuantityEditText.setEnabled(false);
 
-        // disable all but the editing unlock button
-        mDeleteButton.setVisibility(View.INVISIBLE);
-
-        // set unlock button and flag to be visible
-        mUnlockEditButton.setVisibility(View.VISIBLE);
-        mUnlockFlag = true; // flag set to one means button is visible
-
-        mLockEditButton.setVisibility(View.INVISIBLE);
-        mAdjustQuantityDownButton.setVisibility(View.INVISIBLE);
-        mAdjustQuantityUpButton.setVisibility(View.INVISIBLE);
 
     }
 
@@ -490,8 +501,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
     // enable editing of product
     private void enableEdit() {
 
-        // set title of activity
-        setTitle("Edit Product");
 
         //set unlock flag
         mUnlockFlag = false;
@@ -517,8 +526,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
     // disable and lock editing
     private void disableEdit() {
 
-        // set title of activity
-        setTitle("Product Details");
 
         // set unlock flag
         mUnlockFlag = true;

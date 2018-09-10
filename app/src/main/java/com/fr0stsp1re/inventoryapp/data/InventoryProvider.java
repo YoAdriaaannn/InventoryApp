@@ -45,6 +45,8 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
 
@@ -93,12 +95,10 @@ public class InventoryProvider extends ContentProvider {
                 break;
 
 
-
             case PRODUCT_ID:
 
                 selection = InventoryEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-
 
 
                 cursor = database.query(InventoryEntry.TABLE_NAME, projection, selection, selectionArgs,
@@ -135,10 +135,41 @@ public class InventoryProvider extends ContentProvider {
 
     private Uri insertProduct(Uri uri, ContentValues values) {
 
+        long id = 0;
+
         // != null check for product name
         String name = values.getAsString(InventoryEntry.COL_PRODUCT_NAME);
-        if (name == null) {
-            throw new IllegalArgumentException("Item requires a name");
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(getContext(), "Name of item is required", Toast.LENGTH_SHORT).show();
+
+        }
+
+        // != null check for product name
+        String description = values.getAsString(InventoryEntry.COL_PRODUCT_DESCRIPTION);
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(getContext(), "Description of item is required", Toast.LENGTH_SHORT).show();
+
+        }
+
+        // != null check for product name
+        String supplier = values.getAsString(InventoryEntry.COL_PRODUCT_SUPPLIER);
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(getContext(), "Supplier is required", Toast.LENGTH_SHORT).show();
+
+        }
+
+        // != null check for product name
+        String supplierPhone = values.getAsString(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE);
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(getContext(), "Supplier phone is required", Toast.LENGTH_SHORT).show();
+
+        }
+
+        // != null check for product name
+        String price = values.getAsString(InventoryEntry.COL_PRODUCT_PRICE);
+        if (TextUtils.isEmpty(name)) {
+            Toast.makeText(getContext(), "Price is required", Toast.LENGTH_SHORT).show();
+
         }
 
         // check to see if quantity is 0 or >
@@ -150,15 +181,20 @@ public class InventoryProvider extends ContentProvider {
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
         // Insert the new product
-        long id = database.insert(InventoryEntry.TABLE_NAME, null, values);
+        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(description) && !TextUtils.isEmpty(supplier)
+                && !TextUtils.isEmpty(supplierPhone) && !TextUtils.isEmpty(price) && quantity != null) {
+            id = database.insert(InventoryEntry.TABLE_NAME, null, values);
+            getContext().getContentResolver().notifyChange(uri, null);
+            return ContentUris.withAppendedId(uri, id);
+        }
 
         if (id == -1) {
 
             return null;
         }
 
-        getContext().getContentResolver().notifyChange(uri, null);
-        return ContentUris.withAppendedId(uri, id);
+        return null;
+
     }
 
     @Override
