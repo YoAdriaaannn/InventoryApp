@@ -23,6 +23,9 @@
     <string name="no_product_description">No Description Available</string>
     <string name="label_product_catalog">Product Catalog</string>
 
+    <!-- Type of files which can be selected (Add photo) -->
+    <string name="intent_type">image/*</string>
+
 </resources>
 
 

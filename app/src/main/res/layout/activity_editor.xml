@@ -39,32 +39,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/activity_margin"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_margin"
     tools:context=".ProductEditorActivity">
 
-    <LinearLayout
 
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
 
+        <!-- Image section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:text="Image" />
+
+            <!-- Photo -->
+            <ImageView
+                android:id="@+id/edit_product_photo"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:paddingLeft="4dp"
+                android:scaleType="centerInside"
+                tools:background="@drawable/chirper"
+                />
+
+            <TextView
+                android:id="@+id/add_or_edit_photo_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                tools:text="Tap to add a photo" />
+        </LinearLayout>
+
+        <!-- product name -->
         <LinearLayout
             android:id="@+id/layout_product_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/product_name_label"
                 style="@style/EditorTextBoxStyle"
-
-
                 android:text="Item Name" />
-
 
             <EditText
                 android:id="@+id/edit_product_name"
@@ -75,73 +103,70 @@
         </LinearLayout>
 
 
+
+        <!-- product description -->
         <LinearLayout
             android:id="@+id/layout_product_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/product-description_label"
                 style="@style/EditorTextBoxStyle"
-
                 android:text="Description" />
 
             <EditText
                 android:id="@+id/edit_product_description"
                 style="@style/EditorFieldStyle"
-
                 android:hint="Description"
                 android:inputType="textCapWords" />
 
         </LinearLayout>
 
-
+        <!-- supplier  -->
         <LinearLayout
             android:id="@+id/layout_product_supplier"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/product_supplier_label"
                 style="@style/EditorTextBoxStyle"
-
                 android:text="Supplier" />
-
 
             <EditText
                 android:id="@+id/edit_supplier"
                 style="@style/EditorFieldStyle"
-
                 android:hint="Supplier"
                 android:inputType="textCapWords" />
 
         </LinearLayout>
 
-
+        <!-- phone -->
         <LinearLayout
             android:id="@+id/layout_product_supplier_phone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/supplier_phone_label"
                 style="@style/EditorTextBoxStyle"
-
                 android:text="Supplier Phone" />
 
             <EditText
                 android:id="@+id/edit_supplier_phone"
                 style="@style/EditorFieldStyle"
-
                 android:hint="Supplier Phone"
                 android:inputType="phone" />
 
         </LinearLayout>
 
-
+        <!-- price -->
         <LinearLayout
             android:id="@+id/layout_product_price"
             android:layout_width="match_parent"
@@ -150,17 +175,16 @@
 
             <TextView
                 android:id="@+id/price_label"
-                style="@style/EditorTextBoxStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Price" />
 
             <EditText
                 android:id="@+id/edit_price"
-                style="@style/EditorFieldStyle"
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:hint="Price"
                 android:inputType="textCapWords" />
-
-
         </LinearLayout>
 
         <!-- quantity layout -->
@@ -168,13 +192,13 @@
             android:id="@+id/layout_product_quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/quantity_label"
-                style="@style/EditorTextBoxStyle"
-                android:layout_below="@id/price_label"
-                android:layout_toLeftOf="@id/quantity_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Quantity" />
 
             <ImageButton
@@ -187,14 +211,14 @@
                 android:padding="@dimen/padding_small"
                 android:scaleType="centerInside" />
 
-
             <EditText
                 android:id="@+id/edit_quantity"
-                style="@style/EditorFieldStyle"
-                android:layout_below="@id/edit_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
                 android:hint="Quantity"
                 android:inputType="textCapWords" />
-
 
             <ImageButton
                 android:id="@+id/edit_quantity_button_plus"
@@ -206,17 +230,6 @@
                 android:padding="@dimen/padding_small"
                 android:scaleType="centerInside" />
 
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/layout_product_quantity_buttons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:orientation="horizontal">
-
-
         </LinearLayout>
 
 
@@ -224,11 +237,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/activity_margin"
             android:layout_marginTop="@dimen/activity_margin"
-
             android:orientation="horizontal"
             android:padding="@dimen/padding_large">
 
@@ -239,7 +250,13 @@
                 android:background="@drawable/ic_lock_open_black_24dp"
                 android:backgroundTint="@color/colorAccent"
                 android:padding="@dimen/padding_small"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"
+                android:tooltipText="Unlock to edit" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
 
             <ImageButton
                 android:id="@+id/edit_lock_single_item"
@@ -248,7 +265,13 @@
                 android:background="@drawable/ic_lock_outline_black_24dp"
                 android:backgroundTint="@color/colorAccent"
                 android:padding="@dimen/padding_small"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"
+                android:tooltipText="Lock to save" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
 
             <ImageButton
                 android:id="@+id/edit_delete_single_item"
@@ -257,7 +280,13 @@
                 android:background="@drawable/ic_delete_forever_black_24dp"
                 android:backgroundTint="@color/colorAccent"
                 android:padding="@dimen/padding_small"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"
+                android:tooltipText="Delete" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
 
             <ImageButton
                 android:id="@+id/edit_call_supplier"
@@ -266,7 +295,8 @@
                 android:background="@drawable/ic_phone_black_24dp"
                 android:backgroundTint="@color/colorAccent"
                 android:padding="@dimen/padding_small"
-                android:scaleType="centerInside" />
+                android:scaleType="centerInside"
+                android:tooltipText="Call supplier to order this item" />
 
         </LinearLayout>
 

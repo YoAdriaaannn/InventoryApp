@@ -77,12 +77,14 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
         String[] sampleSupplierPhone = res.getStringArray(R.array.sample_data_supplier_phone);
         String[] samplePrice = res.getStringArray(R.array.sample_data_price);
         String[] sampleQuantity = res.getStringArray(R.array.sample_quantity);
+        String[] imageUri = res.getStringArray(R.array.sample_data_image_uri);
 
         ContentValues v = new ContentValues();
 
         for ( int i = 0; i < sampleProduct.length; i++) {
 
             v.put(InventoryEntry.COL_PRODUCT_NAME, sampleProduct[i]);
+            v.put(InventoryEntry.COL_PRODUCT_PICTURE, imageUri[1]);
             v.put(InventoryEntry.COL_PRODUCT_DESCRIPTION, sampleDescription[i]);
             v.put(InventoryEntry.COL_PRODUCT_SUPPLIER, sampleSupplier[i]);
             v.put(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE, sampleSupplierPhone[i]);
@@ -163,6 +165,7 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
 
         String[] projection = {
                 InventoryEntry._ID,
+                InventoryEntry.COL_PRODUCT_PICTURE,
                 InventoryEntry.COL_PRODUCT_NAME,
                 InventoryEntry.COL_PRODUCT_DESCRIPTION,
                 InventoryEntry.COL_PRODUCT_SUPPLIER,
@@ -184,6 +187,7 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
 
         String[] projection = {
                 InventoryEntry._ID,
+                InventoryEntry.COL_PRODUCT_PICTURE,
                 InventoryEntry.COL_PRODUCT_NAME,
                 InventoryEntry.COL_PRODUCT_DESCRIPTION,
                 InventoryEntry.COL_PRODUCT_SUPPLIER,

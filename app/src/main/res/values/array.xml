@@ -38,6 +38,16 @@
   -->
 
 <resources>
+
+    <string-array name="sample_data_image_uri">
+        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/sillydriver</item>
+        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/sillydriver</item>
+        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/sillydriver</item>
+        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/sillydriver</item>
+        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/sillydriver</item>
+        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/sillydriver</item>
+    
+    </string-array>
     <string-array name="sample_data_product_name">
         <item>Man Hammer</item>
         <item>Screwy Driver</item>

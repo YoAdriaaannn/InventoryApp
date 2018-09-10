@@ -38,6 +38,8 @@
 
 package com.fr0stsp1re.inventoryapp;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.LoaderManager;
 import android.content.ContentValues;
@@ -48,8 +50,12 @@ import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NavUtils;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -58,9 +64,12 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
+
+import java.net.URI;
 
 public class ProductEditorActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor> {
@@ -82,6 +91,15 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
     // boolean flag for change indicator
     private boolean mProductHasChanged = false;
+
+    /**
+     * ImageView field to enter the product's photo
+     */
+    private ImageView mPhoto;
+
+
+    private Uri mImageUri;
+
 
     // on touch listener
     private final View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -120,6 +138,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_supplier_phone);
         mPriceEditText = (EditText) findViewById(R.id.edit_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
+        mPhoto = (ImageView) findViewById(R.id.edit_product_photo);
 
         //edit buttons and action buttons
         mUnlockEditButton = findViewById(R.id.edit_unlock_single_item);
@@ -176,7 +195,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
             getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
         }
 
-
         // unlock editing
         mUnlockEditButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,8 +247,13 @@ public class ProductEditorActivity extends AppCompatActivity implements
             }
         });
 
-
-
+        mPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                trySelector();
+                mProductHasChanged = true;
+            }
+        });
     }
 
     private void saveProduct() {
@@ -241,6 +264,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
         String supplierPhoneString = mSupplierPhoneEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
         String quantityString = mQuantityEditText.getText().toString().trim();
+
 
         // new product check and empty field check
         if (mCurrentProductUri == null &&
@@ -256,6 +280,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
         values.put(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE, supplierPhoneString);
         values.put(InventoryEntry.COL_PRODUCT_PRICE, priceString);
         values.put(InventoryEntry.COL_PRODUCT_QUANTITY, quantityString);
+        values.put(InventoryEntry.COL_PRODUCT_PICTURE, mImageUri.toString());
 
         // if quantity is not provided, use zero by default
         int quantity = 0;
@@ -263,6 +288,10 @@ public class ProductEditorActivity extends AppCompatActivity implements
         if (!TextUtils.isEmpty(quantityString)) {
             quantity = Integer.parseInt(quantityString);
         }
+
+
+
+
 
         values.put(InventoryEntry.COL_PRODUCT_QUANTITY, quantity);
 
@@ -369,6 +398,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
         String[] projection = {
                 InventoryEntry._ID,
+                InventoryEntry.COL_PRODUCT_PICTURE,
                 InventoryEntry.COL_PRODUCT_NAME,
                 InventoryEntry.COL_PRODUCT_DESCRIPTION,
                 InventoryEntry.COL_PRODUCT_SUPPLIER,
@@ -394,21 +424,26 @@ public class ProductEditorActivity extends AppCompatActivity implements
             int supplierPhoneColumnIndex = cursor.getColumnIndex(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE);
             int priceColumnIndex = cursor.getColumnIndex(InventoryEntry.COL_PRODUCT_PRICE);
             int quantityColumnIndex = cursor.getColumnIndex(InventoryEntry.COL_PRODUCT_QUANTITY);
+            int pictureColumnIndex = cursor.getColumnIndex(InventoryEntry.COL_PRODUCT_PICTURE);
 
             // Extract out the value from the Cursor for the given column index
             String name = cursor.getString(nameColumnIndex);
             String description = cursor.getString(descriptionColumnIndex);
             String supplier = cursor.getString(supplierColumnIndex);
             String supplierPhone = cursor.getString(supplierPhoneColumnIndex);
-            int price = cursor.getInt(priceColumnIndex);
+            String price = cursor.getString(priceColumnIndex);
             int quantity = cursor.getInt(quantityColumnIndex);
+            String imageUriString = cursor.getString(pictureColumnIndex);
+
+            mImageUri = Uri.parse(imageUriString);
 
             // Update the views on the screen with the values from the database
+            mPhoto.setImageURI(mImageUri);
             mNameEditText.setText(name);
             mDescriptionEditText.setText(description);
             mSupplierEditText.setText(supplier);
             mSupplierPhoneEditText.setText(supplierPhone);
-            mPriceEditText.setText(Integer.toString(price));
+            mPriceEditText.setText(price);
             mQuantityEditText.setText(Integer.toString(quantity));
         }
     }
@@ -422,6 +457,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mSupplierPhoneEditText.setText("");
         mPriceEditText.setText("");
         mQuantityEditText.setText("");
+        mPhoto.setImageResource(R.drawable.chirper);
     }
 
     /**
@@ -548,6 +584,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
         //save product
         saveProduct();
+        mProductHasChanged = false;
     }
 
     private void decreaseQuantity() {
@@ -574,24 +611,47 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mQuantityEditText.setText(String.valueOf(previousValue + 1));
     }
 
+    public void trySelector() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            return;
+        }
+        openSelector();
+    }
+
+    private void openSelector() {
+        Intent intent;
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+        } else {
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+        }
+        intent.setType(getString(R.string.intent_type));
+        startActivityForResult(Intent.createChooser(intent, "Select Image"), 0);
+    }
+
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
-            case 1: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay! Do the
-                    // contacts-related task you need to do.
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+            case 1:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openSelector();
                 }
-                return;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0 && resultCode == Activity.RESULT_OK) {
+            if (data != null) {
+                mImageUri = data.getData();
+                mPhoto.setImageURI(mImageUri);
+                mPhoto.invalidate();
             }
-            // other 'case' lines to check for other
-            // permissions this app might request.
         }
     }
 }

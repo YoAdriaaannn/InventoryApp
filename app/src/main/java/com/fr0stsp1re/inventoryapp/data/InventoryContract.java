@@ -45,7 +45,8 @@ import android.provider.BaseColumns;
 public final class InventoryContract {
 
     // empty constructor
-    private InventoryContract() {}
+    private InventoryContract() {
+    }
 
     // string var for content authority to be used as base for all uri's
     public static final String CONTENT_AUTHORITY = "com.fr0stsp1re.inventoryapp";
@@ -55,7 +56,7 @@ public final class InventoryContract {
     // path to entire table
     public static final String PATH_PRODUCT = "tbl_product";
 
-     //inner class defining constant values for product table
+    //inner class defining constant values for product table
     public static final class InventoryEntry implements BaseColumns {
 
         //content uri
@@ -87,6 +88,9 @@ public final class InventoryContract {
         public final static String COL_PRODUCT_PRICE = "product_price";
 
         public final static String COL_PRODUCT_QUANTITY = "product_quantity";
+
+        public static final String COL_PRODUCT_PICTURE = "product_picture";
+
 
     }
 
