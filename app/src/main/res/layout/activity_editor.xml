@@ -46,12 +46,11 @@
     tools:context=".ProductEditorActivity">
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:orientation="vertical"
+        android:padding="@dimen/padding_small">
 
         <!-- Image section -->
         <LinearLayout
@@ -60,8 +59,8 @@
             android:orientation="vertical">
 
             <TextView
-                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Image" />
 
             <!-- Photo -->
@@ -71,8 +70,7 @@
                 android:layout_height="120dp"
                 android:paddingLeft="4dp"
                 android:scaleType="centerInside"
-                tools:background="@drawable/chirper"
-                />
+                tools:background="@drawable/chirper" />
 
             <TextView
                 android:id="@+id/add_or_edit_photo_hint"
@@ -80,6 +78,90 @@
                 android:layout_height="wrap_content"
                 android:textStyle="italic"
                 tools:text="Tap to add a photo" />
+
+        </LinearLayout>
+
+        <!-- edit buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/activity_margin"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_large">
+
+            <ImageButton
+                android:id="@+id/edit_unlock_single_item"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/ic_lock_open_black_24dp"
+                android:backgroundTint="@color/colorAccent"
+                android:padding="@dimen/padding_small"
+                android:scaleType="centerInside"
+                android:tooltipText="Unlock to edit" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+            <ImageButton
+                android:id="@+id/edit_lock_single_item"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/ic_lock_outline_black_24dp"
+                android:backgroundTint="@color/colorAccent"
+                android:padding="@dimen/padding_small"
+                android:scaleType="centerInside"
+                android:tooltipText="Lock to save" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+            <ImageButton
+                android:id="@+id/edit_delete_single_item"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/ic_delete_forever_black_24dp"
+                android:backgroundTint="@color/colorAccent"
+                android:padding="@dimen/padding_small"
+                android:scaleType="centerInside"
+                android:tooltipText="Delete" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1"></Space>
+
+            <ImageButton
+                android:id="@+id/edit_call_supplier"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:background="@drawable/ic_phone_black_24dp"
+                android:backgroundTint="@color/colorAccent"
+                android:padding="@dimen/padding_small"
+                android:scaleType="centerInside"
+                android:tooltipText="Call supplier to order this item" />
+
+        </LinearLayout>
+
+        <!-- edit button instructions -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/padding_tiny"
+            android:background="@color/editorColorPrimary">
+
+            <TextView
+                android:id="@+id/edit_unlock_instructions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
+                android:text="Click Unlock To Edit Item" />
+
         </LinearLayout>
 
         <!-- product name -->
@@ -101,7 +183,6 @@
                 android:inputType="textCapWords" />
 
         </LinearLayout>
-
 
 
         <!-- product description -->
@@ -192,8 +273,9 @@
             android:id="@+id/layout_product_quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
 
-            android:orientation="horizontal">
+            android:padding="@dimen/padding_small">
 
             <TextView
                 android:id="@+id/quantity_label"
@@ -232,73 +314,6 @@
 
         </LinearLayout>
 
-
-        <!-- edit buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="@dimen/activity_margin"
-            android:layout_marginTop="@dimen/activity_margin"
-            android:orientation="horizontal"
-            android:padding="@dimen/padding_large">
-
-            <ImageButton
-                android:id="@+id/edit_unlock_single_item"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:background="@drawable/ic_lock_open_black_24dp"
-                android:backgroundTint="@color/colorAccent"
-                android:padding="@dimen/padding_small"
-                android:scaleType="centerInside"
-                android:tooltipText="Unlock to edit" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"></Space>
-
-            <ImageButton
-                android:id="@+id/edit_lock_single_item"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:background="@drawable/ic_lock_outline_black_24dp"
-                android:backgroundTint="@color/colorAccent"
-                android:padding="@dimen/padding_small"
-                android:scaleType="centerInside"
-                android:tooltipText="Lock to save" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"></Space>
-
-            <ImageButton
-                android:id="@+id/edit_delete_single_item"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:background="@drawable/ic_delete_forever_black_24dp"
-                android:backgroundTint="@color/colorAccent"
-                android:padding="@dimen/padding_small"
-                android:scaleType="centerInside"
-                android:tooltipText="Delete" />
-
-            <Space
-                android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:layout_weight="1"></Space>
-
-            <ImageButton
-                android:id="@+id/edit_call_supplier"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:background="@drawable/ic_phone_black_24dp"
-                android:backgroundTint="@color/colorAccent"
-                android:padding="@dimen/padding_small"
-                android:scaleType="centerInside"
-                android:tooltipText="Call supplier to order this item" />
-
-        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

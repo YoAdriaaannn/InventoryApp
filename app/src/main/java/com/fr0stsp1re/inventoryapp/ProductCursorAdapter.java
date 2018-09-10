@@ -50,6 +50,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,12 +79,14 @@ class ProductCursorAdapter extends CursorAdapter {
         TextView quantityTextView = view.findViewById(R.id.quantity);
         TextView quantityTextViewLabel = view.findViewById(R.id.quantity_label);
         ImageButton buyImageButton = view.findViewById(R.id.list_view_add_to_cart);
+        ImageView productPictureImageView = (ImageView) view.findViewById(R.id.product_image);
 
         final int productIdColumnIndex = cursor.getInt(cursor.getColumnIndex(InventoryEntry._ID));
         int productNameColumnIndex = cursor.getColumnIndex(InventoryEntry.COL_PRODUCT_NAME);
         int descriptionColumnIndex = cursor.getColumnIndex(InventoryEntry.COL_PRODUCT_DESCRIPTION);
         int priceColumnIndex = cursor.getColumnIndex(InventoryEntry.COL_PRODUCT_PRICE);
         int quantityColumnIndex = cursor.getColumnIndex(InventoryEntry.COL_PRODUCT_QUANTITY);
+        productPictureImageView.setImageURI(Uri.parse(cursor.getString(cursor.getColumnIndex(InventoryEntry.COL_PRODUCT_PICTURE))));
 
         // load from cursor to a variable
         String productName = cursor.getString(productNameColumnIndex);

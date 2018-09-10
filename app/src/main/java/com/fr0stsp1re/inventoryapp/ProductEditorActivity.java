@@ -65,6 +65,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
@@ -110,15 +111,16 @@ public class ProductEditorActivity extends AppCompatActivity implements
         }
     };
 
-    // edittext fields
+    // edittext adn textview fields
     private EditText mNameEditText;
     private EditText mDescriptionEditText;
     private EditText mSupplierEditText;
     private EditText mSupplierPhoneEditText;
     private EditText mPriceEditText;
     private EditText mQuantityEditText;
-    // edit buttons
+    private TextView mUnlockInstructionEditText;
 
+    // edit buttons
     private ImageButton mUnlockEditButton;
     private ImageButton mLockEditButton;
     private ImageButton mDeleteButton;
@@ -139,6 +141,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mPriceEditText = (EditText) findViewById(R.id.edit_price);
         mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
         mPhoto = (ImageView) findViewById(R.id.edit_product_photo);
+        mUnlockInstructionEditText = findViewById(R.id.edit_unlock_instructions);
 
         //edit buttons and action buttons
         mUnlockEditButton = findViewById(R.id.edit_unlock_single_item);
@@ -202,6 +205,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 enableEdit();
                 // set title of activity
                 setTitle("Edit Product");
+                mUnlockInstructionEditText.setText("Click Lock To Save Changes");
             }
         });
 
@@ -212,6 +216,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 disableEdit();
                 // set title of activity
                 setTitle("Product Details");
+                mUnlockInstructionEditText.setText("Click Unlock To Edit Item");
             }
         });
 
