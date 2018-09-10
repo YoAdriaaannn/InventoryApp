@@ -11,13 +11,10 @@
      limitations under the License.
 -->
 <resources>
-
-    <color name="colorPrimary">#3b8174</color>
-    <color name="colorPrimaryDark">#006653</color>
-    <color name="colorAccent">#538077</color>
-    <color name="editorColorPrimary">#233b37</color>
-    <color name="editorColorPrimaryDark">#00261f</color>
+    <color name="colorPrimary">#008498</color>
+    <color name="colorPrimaryDark">#004d59</color>
+    <color name="colorAccent">#00bbd8</color>
+    <color name="editorColorPrimary">#008498</color>
+    <color name="editorColorPrimaryDark">#004d59</color>
     <color name="editorColorWarningGray">#7e7e7e</color>
-
-
 </resources>

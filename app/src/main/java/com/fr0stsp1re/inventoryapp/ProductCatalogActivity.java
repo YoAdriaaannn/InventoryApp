@@ -68,9 +68,9 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
     }
 
     // call this to insert test data from array.xml file
-    private void insertNewDummyProduct() {
-
+    private void insertSampleData() {
         Resources res = getResources();
+
         String[]  sampleProduct = res.getStringArray(R.array.sample_data_product_name);
         String[] sampleDescription = res.getStringArray(R.array.sample_data_product_description);
         String[] sampleSupplier = res.getStringArray(R.array.sample_data_supplier);
@@ -130,11 +130,10 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
 
             case R.id.action_insert_dummy_data:
-                insertNewDummyProduct();
+                insertSampleData();
                 return true;
 
             case R.id.action_delete_all_entries:

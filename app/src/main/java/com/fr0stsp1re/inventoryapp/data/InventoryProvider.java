@@ -175,14 +175,20 @@ public class InventoryProvider extends ContentProvider {
         // check to see if quantity is 0 or >
         Integer quantity = values.getAsInteger(InventoryEntry.COL_PRODUCT_QUANTITY);
         if (quantity != null && quantity < 0) {
-            throw new IllegalArgumentException("Item requires min quantity of 0");
+            Toast.makeText(getContext(), "Quantity is required. Min 0", Toast.LENGTH_SHORT).show();
+        }
+
+        // check to see if there is an image
+        String image = values.getAsString(InventoryEntry.COL_PRODUCT_PICTURE);
+        if (TextUtils.isEmpty(image)){
+            Toast.makeText(getContext(), "An image is required", Toast.LENGTH_SHORT).show();
         }
 
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        // Insert the new product
+        // Insert the new product only if all fields are not empty
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(description) && !TextUtils.isEmpty(supplier)
-                && !TextUtils.isEmpty(supplierPhone) && !TextUtils.isEmpty(price) && quantity != null) {
+                && !TextUtils.isEmpty(supplierPhone) && !TextUtils.isEmpty(price) && quantity != null && !TextUtils.isEmpty(image)) {
             id = database.insert(InventoryEntry.TABLE_NAME, null, values);
             getContext().getContentResolver().notifyChange(uri, null);
             return ContentUris.withAppendedId(uri, id);
