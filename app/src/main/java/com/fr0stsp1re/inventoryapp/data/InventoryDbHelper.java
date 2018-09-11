@@ -56,7 +56,6 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
         String SQL_CREATE_PRODUCT_TABLE = "CREATE TABLE " + InventoryEntry.TABLE_NAME + " ("
                 + InventoryEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + InventoryEntry.COL_PRODUCT_PICTURE + " TEXT NOT NULL, "
@@ -66,12 +65,10 @@ public class InventoryDbHelper extends SQLiteOpenHelper {
                 + InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE + " TEXT, "
                 + InventoryEntry.COL_PRODUCT_PRICE + " REAL NOT NULL, "
                 + InventoryEntry.COL_PRODUCT_QUANTITY + " INTEGER NOT NULL DEFAULT 0);";
-
         db.execSQL(SQL_CREATE_PRODUCT_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
-
 }

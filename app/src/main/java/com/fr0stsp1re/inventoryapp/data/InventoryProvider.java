@@ -87,19 +87,16 @@ public class InventoryProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
 
         switch (match) {
-
             case PRODUCT:
 
                 cursor = database.query(InventoryEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
                 break;
 
-
             case PRODUCT_ID:
 
                 selection = InventoryEntry._ID + "=?";
                 selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
-
 
                 cursor = database.query(InventoryEntry.TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
@@ -141,35 +138,30 @@ public class InventoryProvider extends ContentProvider {
         String name = values.getAsString(InventoryEntry.COL_PRODUCT_NAME);
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(getContext(), "Name of item is required", Toast.LENGTH_SHORT).show();
-
         }
 
         // != null check for product name
         String description = values.getAsString(InventoryEntry.COL_PRODUCT_DESCRIPTION);
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(getContext(), "Description of item is required", Toast.LENGTH_SHORT).show();
-
         }
 
         // != null check for product name
         String supplier = values.getAsString(InventoryEntry.COL_PRODUCT_SUPPLIER);
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(getContext(), "Supplier is required", Toast.LENGTH_SHORT).show();
-
         }
 
         // != null check for product name
         String supplierPhone = values.getAsString(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE);
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(getContext(), "Supplier phone is required", Toast.LENGTH_SHORT).show();
-
         }
 
         // != null check for product name
         String price = values.getAsString(InventoryEntry.COL_PRODUCT_PRICE);
         if (TextUtils.isEmpty(name)) {
             Toast.makeText(getContext(), "Price is required", Toast.LENGTH_SHORT).show();
-
         }
 
         // check to see if quantity is 0 or >
@@ -193,14 +185,10 @@ public class InventoryProvider extends ContentProvider {
             getContext().getContentResolver().notifyChange(uri, null);
             return ContentUris.withAppendedId(uri, id);
         }
-
         if (id == -1) {
-
             return null;
         }
-
         return null;
-
     }
 
     @Override
@@ -214,6 +202,7 @@ public class InventoryProvider extends ContentProvider {
             case PRODUCT:
 
                 return updateProduct(uri, contentValues, selection, selectionArgs);
+
             case PRODUCT_ID:
 
                 selection = InventoryEntry._ID + "=?";
@@ -224,96 +213,62 @@ public class InventoryProvider extends ContentProvider {
             default:
 
                 throw new IllegalArgumentException("Update is not supported for " + uri);
-
         }
-
     }
 
     private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
 
         // != null check for item name
         if (values.containsKey(InventoryEntry.COL_PRODUCT_NAME)) {
-
             String name = values.getAsString(InventoryEntry.COL_PRODUCT_NAME);
-
             if (name == null) {
-
                 Toast.makeText(getContext(), "Item requires a name", Toast.LENGTH_SHORT).show();
-
             }
-
         }
 
-        // != null check for item descriptionm
+        // != null check for item description
         if (values.containsKey(InventoryEntry.COL_PRODUCT_DESCRIPTION)) {
-
             String description = values.getAsString(InventoryEntry.COL_PRODUCT_DESCRIPTION);
-
             if (description == null) {
-
                 Toast.makeText(getContext(), "Item requires a name", Toast.LENGTH_SHORT).show();
                 throw new IllegalArgumentException("Item requires a description");
-
             }
-
         }
 
         // != null check for supplier
         if (values.containsKey(InventoryEntry.COL_PRODUCT_SUPPLIER)) {
-
             String name = values.getAsString(InventoryEntry.COL_PRODUCT_SUPPLIER);
-
             if (name == null) {
-
                 throw new IllegalArgumentException("Item requires a supplier name");
-
             }
-
         }
 
         // != null check for supplier phone
         if (values.containsKey(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE)) {
-
             String name = values.getAsString(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE);
-
             if (name == null) {
-
                 throw new IllegalArgumentException("Item requires a phone number");
-
             }
-
         }
 
         // != null check for supplier phone
         if (values.containsKey(InventoryEntry.COL_PRODUCT_PRICE)) {
-
             String name = values.getAsString(InventoryEntry.COL_PRODUCT_PRICE);
-
             if (name == null) {
-
                 throw new IllegalArgumentException("Item requires a price");
-
             }
-
         }
 
         // check that the quantity value is valid.
         if (values.containsKey(InventoryEntry.COL_PRODUCT_QUANTITY)) {
-
             Integer quantity = values.getAsInteger(InventoryEntry.COL_PRODUCT_QUANTITY);
-
             if (quantity != null && quantity < 0) {
-
                 throw new IllegalArgumentException("Requires a quantity of at least zero");
-
             }
-
         }
 
         if (values.size() == 0) {
-
             return 0;
-
         }
 
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
@@ -323,13 +278,9 @@ public class InventoryProvider extends ContentProvider {
 
         // notify all listeners that rows were affected
         if (rowsUpdated != 0) {
-
             getContext().getContentResolver().notifyChange(uri, null);
-
         }
-
         return rowsUpdated;
-
     }
 
     @Override
@@ -361,16 +312,11 @@ public class InventoryProvider extends ContentProvider {
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
 
         }
-
         // notify all listeners that rows were deleted
         if (rowsDeleted != 0) {
-
             getContext().getContentResolver().notifyChange(uri, null);
-
         }
-
         return rowsDeleted;
-
     }
 
     @Override
@@ -391,8 +337,6 @@ public class InventoryProvider extends ContentProvider {
             default:
 
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
-
         }
-
     }
 }

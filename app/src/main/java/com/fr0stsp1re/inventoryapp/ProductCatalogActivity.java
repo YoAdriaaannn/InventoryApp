@@ -105,9 +105,6 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
         return true;
     }
 
-    /**
-     *  sort methods
-     */
     private void sortAsc() {
         mSortOrder = InventoryEntry.COL_PRODUCT_NAME + " ASC";
         getLoaderManager().restartLoader(PRODUCT_LOADER, null, this);
@@ -183,7 +180,6 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
         String[] projection = {
                 InventoryEntry._ID,
                 InventoryEntry.COL_PRODUCT_PICTURE,

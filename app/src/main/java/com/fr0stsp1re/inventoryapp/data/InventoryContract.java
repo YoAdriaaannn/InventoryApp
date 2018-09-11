@@ -43,7 +43,6 @@ import android.net.Uri;
 import android.provider.BaseColumns;
 
 public final class InventoryContract {
-
     // empty constructor
     private InventoryContract() {
     }
@@ -90,8 +89,5 @@ public final class InventoryContract {
         public final static String COL_PRODUCT_QUANTITY = "product_quantity";
 
         public static final String COL_PRODUCT_PICTURE = "product_picture";
-
-
     }
-
 }
