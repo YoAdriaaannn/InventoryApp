@@ -29,7 +29,7 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
     private static final int PRODUCT_LOADER = 0;
 
     // string to store sort order
-    String mSortOrder = "";
+    private String mSortOrder = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
         setContentView(R.layout.activity_product_catalog);
 
         //Floating AB
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +46,7 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
             }
         });
 
-        ListView productListView = (ListView) findViewById(R.id.list);
+        ListView productListView = findViewById(R.id.list);
         View emptyView = findViewById(R.id.empty_view);
         productListView.setEmptyView(emptyView);
         mCursorAdapter = new ProductCursorAdapter(this, null);
@@ -84,7 +84,7 @@ public class ProductCatalogActivity extends AppCompatActivity implements LoaderM
         for ( int i = 0; i < sampleProduct.length; i++) {
 
             v.put(InventoryEntry.COL_PRODUCT_NAME, sampleProduct[i]);
-            v.put(InventoryEntry.COL_PRODUCT_PICTURE, imageUri[1]);
+            v.put(InventoryEntry.COL_PRODUCT_PICTURE, imageUri[i]);
             v.put(InventoryEntry.COL_PRODUCT_DESCRIPTION, sampleDescription[i]);
             v.put(InventoryEntry.COL_PRODUCT_SUPPLIER, sampleSupplier[i]);
             v.put(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE, sampleSupplierPhone[i]);

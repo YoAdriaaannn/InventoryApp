@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018.  Adrian Raff AKA Fr0stsp1re
   ~ *************PROJECT LICENSE*************
   ~
@@ -38,39 +37,38 @@
   -->
 
 <resources>
-
     <string-array name="sample_data_image_uri">
+        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/hammer</item>
         <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/sillydriver</item>
-        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/sillydriver</item>
-        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/sillydriver</item>
-        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/sillydriver</item>
-        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/sillydriver</item>
-        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/sillydriver</item>
-    
+        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/mower</item>
+        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/wrench</item>
+        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/reamer</item>
+        <item>"android.resource://com.fr0stsp1re.inventoryapp/drawable/sander</item>
     </string-array>
+
     <string-array name="sample_data_product_name">
         <item>Man Hammer</item>
         <item>Screwy Driver</item>
         <item>Beard Buster</item>
-        <item>Silly Saw</item>
+        <item>Wonder Wrench</item>
         <item>Ridge Reamer</item>
         <item>Super Sander</item>
     </string-array>
 
     <string-array name="sample_data_product_description">
-        <item>Nail stuff</item>
-        <item>Screw them all</item>
-        <item>Mows more than lawns</item>
-        <item>Cuts everything</item>
-        <item>Gets rid of high spots</item>
-        <item>Super smooth</item>
+        <item>Nail Stuff Good</item>
+        <item>Screw Them All</item>
+        <item>Mows More Than Lawns</item>
+        <item>One Size Fits All</item>
+        <item>Ream Em A New One</item>
+        <item>Super Smooth Surfaces</item>
     </string-array>
 
     <string-array name="sample_data_supplier">
         <item>Hammers Inc</item>
         <item>Wal-Smart</item>
-        <item>Grass Guys</item>
-        <item>Hair Club</item>
+        <item>Honda</item>
+        <item>Willys Wrench World</item>
         <item>Man Tools Inc</item>
         <item>Sandy'S Sandpapers</item>
     </string-array>

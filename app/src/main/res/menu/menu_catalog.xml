@@ -44,31 +44,31 @@
 
     <item
         android:id="@+id/action_insert_dummy_data"
-        android:title="Insert Sample Data"
+        android:title="@string/insert_sample_data"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_delete_all_entries"
-        android:title="Delete everything"
+        android:title="@string/delete_everything"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_sort_asc"
-        android:title="Sort By Name ASC"
+        android:title="@string/sort_by_name_asc"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_sort_desc"
-        android:title="Sort By Name DESC"
+        android:title="@string/sort_by_name_desc"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_sort_price_low"
-        android:title="Sort By Price Low To High"
+        android:title="@string/sort_by_price_low_to_high"
         app:showAsAction="never" />
 
     <item
         android:id="@+id/action_sort_price_high"
-        android:title="Sort By Price Hight To Low"
+        android:title="@string/sort_by_price_hight_to_low"
         app:showAsAction="never" />
 </menu>

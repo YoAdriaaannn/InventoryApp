@@ -45,10 +45,13 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
+
+import java.util.Objects;
 
 public class InventoryProvider extends ContentProvider {
 
@@ -76,7 +79,7 @@ public class InventoryProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+    public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs,
                         String sortOrder) {
 
         SQLiteDatabase database = mDbHelper.getReadableDatabase();
@@ -107,13 +110,13 @@ public class InventoryProvider extends ContentProvider {
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
         }
 
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        cursor.setNotificationUri(Objects.requireNonNull(getContext()).getContentResolver(), uri);
 
         return cursor;
     }
 
     @Override
-    public Uri insert(Uri uri, ContentValues contentValues) {
+    public Uri insert(@NonNull Uri uri, ContentValues contentValues) {
 
         final int match = sUriMatcher.match(uri);
 
@@ -182,7 +185,7 @@ public class InventoryProvider extends ContentProvider {
         if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(description) && !TextUtils.isEmpty(supplier)
                 && !TextUtils.isEmpty(supplierPhone) && !TextUtils.isEmpty(price) && quantity != null && !TextUtils.isEmpty(image)) {
             id = database.insert(InventoryEntry.TABLE_NAME, null, values);
-            getContext().getContentResolver().notifyChange(uri, null);
+            Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri, null);
             return ContentUris.withAppendedId(uri, id);
         }
         if (id == -1) {
@@ -192,7 +195,7 @@ public class InventoryProvider extends ContentProvider {
     }
 
     @Override
-    public int update(Uri uri, ContentValues contentValues, String selection,
+    public int update(@NonNull Uri uri, ContentValues contentValues, String selection,
                       String[] selectionArgs) {
 
         final int match = sUriMatcher.match(uri);
@@ -278,13 +281,13 @@ public class InventoryProvider extends ContentProvider {
 
         // notify all listeners that rows were affected
         if (rowsUpdated != 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
+            Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri, null);
         }
         return rowsUpdated;
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
 
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
@@ -314,13 +317,13 @@ public class InventoryProvider extends ContentProvider {
         }
         // notify all listeners that rows were deleted
         if (rowsDeleted != 0) {
-            getContext().getContentResolver().notifyChange(uri, null);
+            Objects.requireNonNull(getContext()).getContentResolver().notifyChange(uri, null);
         }
         return rowsDeleted;
     }
 
     @Override
-    public String getType(Uri uri) {
+    public String getType(@NonNull Uri uri) {
 
         final int match = sUriMatcher.match(uri);
 

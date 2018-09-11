@@ -44,7 +44,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.fr0stsp1re.inventoryapp.data.InventoryContract.InventoryEntry;
 
-public class InventoryDbHelper extends SQLiteOpenHelper {
+class InventoryDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "inventory.db";
 

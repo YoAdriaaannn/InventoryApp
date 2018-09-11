@@ -36,8 +36,11 @@
   ~ SOFTWARE.
   ~
   -->
-<!-- Editor menu -->
-<menu xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".EditorActivity">
 
-</menu>
+<full-backup-content>
+    <!-- TODO Remove the following "exclude" elements to make them a part of the auto backup -->
+    <exclude
+        domain="database"
+        path="inventory.db" />
+    <!-- Exclude specific shared preferences that contain GCM registration Id -->
+</full-backup-content>

@@ -34,7 +34,7 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
             android:paddingTop="16dp"
-            android:text="Its mighty empty in here...."
+            android:text="@string/empty_page_holder_message_upper"
             android:textAppearance="?android:textAppearanceMedium"/>
 
         <TextView
@@ -45,7 +45,7 @@
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
             android:paddingTop="8dp"
-            android:text="Get started by adding products"
+            android:text="@string/empty_database_message_lower"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="#A2AAB0"/>
     </RelativeLayout>
@@ -58,5 +58,5 @@
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/ic_add_circle_outline_black_24dp"
-       />
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

@@ -1,15 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- App name -->
-    <string name="app_name">InventoryApp</string>
-
-    <!-- Dummy product info -->
-    <string name="string_product_name">Big hammer</string>
-    <string name="string_product_description">Nail things</string>
-    <string name="string_product_supplier">Daves Dicks</string>
-    <string name="string_product_supplier_phone">5035551212</string>
-    <string name="string_product_price">100</string>
-    <string name="string_product_quantity">12</string>
+    <string name="app_name">Manley Tools</string>
 
     <!-- Dialog box messages -->
     <string name="delete_dialog_msg">Delete this product</string>
@@ -25,6 +17,33 @@
 
     <!-- Type of files which can be selected (Add photo) -->
     <string name="intent_type">image/*</string>
+
+    <!-- menu items -->
+    <string name="insert_sample_data">Insert Sample Data</string>
+    <string name="delete_everything">Delete everything</string>
+    <string name="sort_by_name_asc">Sort By Name ASC</string>
+    <string name="sort_by_name_desc">Sort By Name DESC</string>
+    <string name="sort_by_price_low_to_high">Sort By Price Low To High</string>
+    <string name="sort_by_price_hight_to_low">Sort By Price Hight To Low</string>
+
+    <!-- text view messages -->
+    <string name="empty_page_holder_message_upper">Its mighty empty in here....</string>
+    <string name="empty_database_message_lower">Get started by adding products</string>
+    <string name="currency_symbol">$</string>
+    <string name="in_stock">In Stock:</string>
+    <string name="message_out_of_stock">OUT OF STOCK</string>
+    <string name="message_click_lock_to_save">Click Lock To Save Changes</string>
+    <string name="message_click_to_upload">Click image box or upload icon to upload image</string>
+    <string name="message_click_to_unlock">Click Unlock To Edit Item</string>
+
+    <!-- error messages for toasts -->
+    <string name="error_product_name_required">A Product Name Is Required</string>
+    <string name="error_product_description_required">A Description Is Required</string>
+    <string name="error_product_supplier_required">A Supplier Is Required</string>
+    <string name="error_phone_required">Phone Number Is Required</string>
+    <string name="error_price_required">A Price Is Required</string>
+    <string name="error_quantity_required">Quantity is required</string>
+    <string name="message_select_image">Select Image</string>
 
 </resources>
 

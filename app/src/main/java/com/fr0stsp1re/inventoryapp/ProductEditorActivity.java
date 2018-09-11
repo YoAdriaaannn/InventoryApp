@@ -118,7 +118,6 @@ public class ProductEditorActivity extends AppCompatActivity implements
     private ImageButton mDeleteButton;
     private ImageButton mAdjustQuantityUpButton;
     private ImageButton mAdjustQuantityDownButton;
-    private ImageButton mCallSupplierButton;
     private ImageButton mPictureButton;
 
     @Override
@@ -127,13 +126,13 @@ public class ProductEditorActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_editor);
 
         // edittext fields
-        mNameEditText = (EditText) findViewById(R.id.edit_product_name);
-        mDescriptionEditText = (EditText) findViewById(R.id.edit_product_description);
-        mSupplierEditText = (EditText) findViewById(R.id.edit_supplier);
-        mSupplierPhoneEditText = (EditText) findViewById(R.id.edit_supplier_phone);
-        mPriceEditText = (EditText) findViewById(R.id.edit_price);
-        mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
-        mImage = (ImageView) findViewById(R.id.edit_product_photo);
+        mNameEditText = findViewById(R.id.edit_product_name);
+        mDescriptionEditText = findViewById(R.id.edit_product_description);
+        mSupplierEditText = findViewById(R.id.edit_supplier);
+        mSupplierPhoneEditText = findViewById(R.id.edit_supplier_phone);
+        mPriceEditText = findViewById(R.id.edit_price);
+        mQuantityEditText = findViewById(R.id.edit_quantity);
+        mImage = findViewById(R.id.edit_product_photo);
         mUnlockInstructionTextView = findViewById(R.id.edit_unlock_instructions);
         mUploadPhotoInstructionTextView = findViewById(R.id.edit_photo_hint);
 
@@ -143,7 +142,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mDeleteButton = findViewById(R.id.edit_delete_single_item);
         mAdjustQuantityUpButton = findViewById(R.id.edit_quantity_button_plus);
         mAdjustQuantityDownButton = findViewById(R.id.edit_quantity_button_minus);
-        mCallSupplierButton = findViewById(R.id.edit_call_supplier);
+        ImageButton mCallSupplierButton = findViewById(R.id.edit_call_supplier);
         mPictureButton = findViewById(R.id.edit_upload_picture);
 
         // on touch listeners used to detrermine if data has been modified or touched for any particular field
@@ -189,8 +188,8 @@ public class ProductEditorActivity extends AppCompatActivity implements
             enableEdit();
 
             setTitle("Add New Product");
-            mUnlockInstructionTextView.setText("Click Lock To Save Changes");
-            mUploadPhotoInstructionTextView.setText("Click image box or upload icon to upload image");
+            mUnlockInstructionTextView.setText(R.string.message_click_lock_to_save);
+            mUploadPhotoInstructionTextView.setText(R.string.message_click_to_upload);
             mImage.setImageResource(R.drawable.ic_cloud_upload_black_48dp);
 
             invalidateOptionsMenu();
@@ -199,7 +198,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
             disableEdit();
             setTitle("Product Detail");
 
-            mUnlockInstructionTextView.setText("Click Unlock To Edit Item");
+            mUnlockInstructionTextView.setText(R.string.message_click_to_unlock);
             getLoaderManager().initLoader(EXISTING_PRODUCT_LOADER, null, this);
         }
 
@@ -211,8 +210,8 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
                 // set title of activity
                 setTitle("Edit Product");
-                mUploadPhotoInstructionTextView.setText("Click image box or upload icon to upload image");
-                mUnlockInstructionTextView.setText("Click Lock To Save Changes");
+                mUploadPhotoInstructionTextView.setText(R.string.message_click_to_upload);
+                mUnlockInstructionTextView.setText(R.string.message_click_to_unlock);
             }
         });
 
@@ -306,42 +305,42 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
         // name check
         if (TextUtils.isEmpty(nameString)) {
-            Toast.makeText(this, "A Product Name Is Required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_product_name_required, Toast.LENGTH_SHORT).show();
         } else {
             values.put(InventoryEntry.COL_PRODUCT_NAME, nameString);
         }
 
         // description check
         if (TextUtils.isEmpty(descriptionString)) {
-            Toast.makeText(this, "A Description Is Required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_product_description_required, Toast.LENGTH_SHORT).show();
         } else {
             values.put(InventoryEntry.COL_PRODUCT_DESCRIPTION, descriptionString);
         }
 
         // supplier check
         if (TextUtils.isEmpty(supplierString)) {
-            Toast.makeText(this, "A Supplier Is Required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_product_supplier_required, Toast.LENGTH_SHORT).show();
         } else {
             values.put(InventoryEntry.COL_PRODUCT_SUPPLIER, supplierString);
         }
 
         // phone check
         if (TextUtils.isEmpty(supplierPhoneString)) {
-            Toast.makeText(this, "Phone Number Is Required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_phone_required, Toast.LENGTH_SHORT).show();
         } else {
             values.put(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE, supplierPhoneString);
         }
 
         // price check
         if (TextUtils.isEmpty(priceString)) {
-            Toast.makeText(this, "A Price Is Required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_price_required, Toast.LENGTH_SHORT).show();
         } else {
             values.put(InventoryEntry.COL_PRODUCT_PRICE, priceString);
         }
 
         //
         if (TextUtils.isEmpty(quantityString)) {
-            Toast.makeText(this, "Quantity is required", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.error_quantity_required, Toast.LENGTH_SHORT).show();
         } else {
             values.put(InventoryEntry.COL_PRODUCT_QUANTITY, quantityString);
         }
@@ -358,9 +357,8 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 setTitle("Edit Product");
                 mUnlockFlag = false;
                 mProductHasChanged = true;
-                mUnlockInstructionTextView.setText("Click Lock To Save Changes");
+                mUnlockInstructionTextView.setText(R.string.message_click_lock_to_save);
                 return;
-
             } else {
                 // Otherwise, the insertion was successful and we can display a toast.
                 Toast.makeText(this, "Saved",
@@ -369,7 +367,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 disableEdit();
                 mUnlockFlag = true;
                 setTitle("Product Details");
-                mUnlockInstructionTextView.setText("Click Unlock To Edit Item");
+                mUnlockInstructionTextView.setText(R.string.message_click_to_unlock);
                 finish();// exit the activity to main
             }
         } else {
@@ -380,7 +378,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 Toast.makeText(this, "Error Updating!", Toast.LENGTH_SHORT).show();
             } else {
                 setTitle("Product Details");
-                mUnlockInstructionTextView.setText("Click Unlock To Edit Item");
+                mUnlockInstructionTextView.setText(R.string.message_click_to_unlock);
             }
         }
     }
@@ -644,7 +642,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
     }
 
     // try opening the image selector check for permissions
-    public void trySelector() {
+    private void trySelector() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -665,7 +663,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
             intent.addCategory(Intent.CATEGORY_OPENABLE);
         }
         intent.setType(getString(R.string.intent_type));
-        startActivityForResult(Intent.createChooser(intent, "Select Image"), 0);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.message_select_image)), 0);
     }
 
     // permission results
