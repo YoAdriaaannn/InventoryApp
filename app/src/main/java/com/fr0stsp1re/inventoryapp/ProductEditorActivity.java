@@ -190,6 +190,9 @@ public class ProductEditorActivity extends AppCompatActivity implements
             enableEdit();
             setTitle("Add New Product");
             mUnlockInstructionTextView.setText("Click Lock To Save Changes");
+            mUploadPhotoInstructionTextView.setText("Click image box or upload icon to upload image");
+            mImage.setImageResource(R.drawable.ic_cloud_upload_black_48dp);
+
             invalidateOptionsMenu();
 
         } else {
@@ -623,11 +626,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mAdjustQuantityDownButton.setVisibility(View.INVISIBLE);
         mPictureButton.setVisibility(View.INVISIBLE);
 
-        //save product
-
-        mProductHasChanged = false;
-
-
+         mProductHasChanged = false;
     }
 
     private void decreaseQuantity() {
