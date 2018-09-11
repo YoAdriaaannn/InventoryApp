@@ -238,7 +238,60 @@ public class InventoryProvider extends ContentProvider {
 
             if (name == null) {
 
-                throw new IllegalArgumentException("Item requires a name");
+                Toast.makeText(getContext(), "Item requires a name", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+
+        // != null check for item descriptionm
+        if (values.containsKey(InventoryEntry.COL_PRODUCT_DESCRIPTION)) {
+
+            String description = values.getAsString(InventoryEntry.COL_PRODUCT_DESCRIPTION);
+
+            if (description == null) {
+
+                Toast.makeText(getContext(), "Item requires a name", Toast.LENGTH_SHORT).show();
+                throw new IllegalArgumentException("Item requires a description");
+
+            }
+
+        }
+
+        // != null check for supplier
+        if (values.containsKey(InventoryEntry.COL_PRODUCT_SUPPLIER)) {
+
+            String name = values.getAsString(InventoryEntry.COL_PRODUCT_SUPPLIER);
+
+            if (name == null) {
+
+                throw new IllegalArgumentException("Item requires a supplier name");
+
+            }
+
+        }
+
+        // != null check for supplier phone
+        if (values.containsKey(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE)) {
+
+            String name = values.getAsString(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE);
+
+            if (name == null) {
+
+                throw new IllegalArgumentException("Item requires a phone number");
+
+            }
+
+        }
+
+        // != null check for supplier phone
+        if (values.containsKey(InventoryEntry.COL_PRODUCT_PRICE)) {
+
+            String name = values.getAsString(InventoryEntry.COL_PRODUCT_PRICE);
+
+            if (name == null) {
+
+                throw new IllegalArgumentException("Item requires a price");
 
             }
 

@@ -244,7 +244,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:textAppearanceMedium"
-                android:text="Supplier Phone" />
+                android:text="Phone" />
 
             <EditText
                 android:id="@+id/edit_supplier_phone"
@@ -293,9 +293,7 @@
             android:id="@+id/layout_product_quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-
-            android:padding="@dimen/padding_small">
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/quantity_label"
@@ -311,6 +309,8 @@
                 android:layout_gravity="left"
                 android:background="@drawable/ic_remove_black_24dp"
                 android:backgroundTint="@color/colorAccent"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginLeft="@dimen/activity_margin"
                 android:padding="@dimen/padding_small"
                 android:scaleType="centerInside" />
 
@@ -318,8 +318,9 @@
                 android:id="@+id/edit_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_marginLeft="@dimen/padding_small"
+                android:layout_marginRight="@dimen/padding_small"
+                android:textAlignment="center"
                 android:hint="Quantity"
                 android:inputType="textCapWords" />
 
@@ -329,6 +330,8 @@
                 android:layout_height="45dp"
                 android:layout_gravity="left"
                 android:background="@drawable/ic_add_black_24dp"
+                android:layout_marginRight="@dimen/padding_small"
+                android:layout_marginLeft="@dimen/padding_small"
                 android:backgroundTint="@color/colorAccent"
                 android:padding="@dimen/padding_small"
                 android:scaleType="centerInside" />

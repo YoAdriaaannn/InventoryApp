@@ -318,6 +318,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
         }
 
+        // image check
         if (mImageUri == null) {
 
             Toast.makeText(this, "Image is required", Toast.LENGTH_SHORT).show();
@@ -328,26 +329,76 @@ public class ProductEditorActivity extends AppCompatActivity implements
 
         }
 
-        values.put(InventoryEntry.COL_PRODUCT_NAME, nameString);
-        values.put(InventoryEntry.COL_PRODUCT_DESCRIPTION, descriptionString);
-        values.put(InventoryEntry.COL_PRODUCT_SUPPLIER, supplierString);
-        values.put(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE, supplierPhoneString);
-        values.put(InventoryEntry.COL_PRODUCT_PRICE, priceString);
-        values.put(InventoryEntry.COL_PRODUCT_QUANTITY, quantityString);
+        // name check
+        if (TextUtils.isEmpty(nameString)) {
 
-        // if quantity is not provided, use zero by default
-        int quantity = 0;
+            Toast.makeText(this, "A Product Name Is Required", Toast.LENGTH_SHORT).show();
 
-        if (!TextUtils.isEmpty(quantityString)) {
+        } else {
 
-            quantity = Integer.parseInt(quantityString);
+
+            values.put(InventoryEntry.COL_PRODUCT_NAME, nameString);
 
         }
 
-        values.put(InventoryEntry.COL_PRODUCT_QUANTITY, quantity);
+        // description check
+        if (TextUtils.isEmpty(descriptionString)) {
+
+            Toast.makeText(this, "A Description Is Required", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            values.put(InventoryEntry.COL_PRODUCT_DESCRIPTION, descriptionString);
+
+
+        }
+
+        // supplier check
+        if (TextUtils.isEmpty(supplierString)) {
+
+            Toast.makeText(this, "A Supplier Is Required", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            values.put(InventoryEntry.COL_PRODUCT_SUPPLIER, supplierString);
+
+        }
+
+        // phone check
+        if (TextUtils.isEmpty(supplierPhoneString)) {
+
+            Toast.makeText(this, "Phone Number Is Required", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            values.put(InventoryEntry.COL_PRODUCT_SUPPLIER_PHONE, supplierPhoneString);
+
+        }
+
+        // price check
+        if (TextUtils.isEmpty(priceString)) {
+
+            Toast.makeText(this, "A Price Is Required", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            values.put(InventoryEntry.COL_PRODUCT_PRICE, priceString);
+
+        }
+
+        //
+        if (TextUtils.isEmpty(quantityString)) {
+
+            Toast.makeText(this, "Quantity is required", Toast.LENGTH_SHORT).show();
+
+        } else {
+
+            values.put(InventoryEntry.COL_PRODUCT_QUANTITY, quantityString);
+
+        }
 
         // Determine if this is a new or existing product by checking if mCurrentProductUri is null or not
-         if (mCurrentProductUri == null) {
+        if (mCurrentProductUri == null) {
             Uri newUri = getContentResolver().insert(InventoryEntry.CONTENT_URI, values);
             if (newUri == null) {
                 // If the new content URI is null, then there was an error with insertion.
@@ -392,7 +443,8 @@ public class ProductEditorActivity extends AppCompatActivity implements
             if (rowsDeleted == 0) {
                 Toast.makeText(this, "Delete Failed", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();            }
+                Toast.makeText(this, "Delete Successful", Toast.LENGTH_SHORT).show();
+            }
         }
         finish();
     }
@@ -417,20 +469,20 @@ public class ProductEditorActivity extends AppCompatActivity implements
                 // check to see if unlock button is locked. if so there must be an unsaved change
                 // and the lock must be set before going back.
 
-                    if (!mProductHasChanged && mUnlockFlag) {
-                        NavUtils.navigateUpFromSameTask(ProductEditorActivity.this);
-                        return true;
-                    }
-                    DialogInterface.OnClickListener discardButtonClickListener =
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    NavUtils.navigateUpFromSameTask(ProductEditorActivity.this);
-                                }
-                            };
-                    showUnsavedChangesDialog(discardButtonClickListener);
+                if (!mProductHasChanged && mUnlockFlag) {
+                    NavUtils.navigateUpFromSameTask(ProductEditorActivity.this);
                     return true;
                 }
+                DialogInterface.OnClickListener discardButtonClickListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                NavUtils.navigateUpFromSameTask(ProductEditorActivity.this);
+                            }
+                        };
+                showUnsavedChangesDialog(discardButtonClickListener);
+                return true;
+        }
 
 
         return super.onOptionsItemSelected(item);
@@ -626,7 +678,7 @@ public class ProductEditorActivity extends AppCompatActivity implements
         mAdjustQuantityDownButton.setVisibility(View.INVISIBLE);
         mPictureButton.setVisibility(View.INVISIBLE);
 
-         mProductHasChanged = false;
+        mProductHasChanged = false;
     }
 
     private void decreaseQuantity() {
